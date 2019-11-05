@@ -34,10 +34,9 @@ class myStack:
         return self.myList[len(self.myList) - 1]
 
 def infixToPostFix(expression):
-    operators = ['+','-','*','/','(',',)']
+    operators = ['+','-','*','/','(',')']
     conversion = ""
     stack = myStack()
-    print(stack.myList)
     for i in expression:
         if i not in operators:
             conversion = conversion + i
@@ -45,16 +44,16 @@ def infixToPostFix(expression):
             print("is this working")
             stack.push(i)
         elif(i == ')'):
-            print("is this working")
             while(stack.peek() != '('):
+                if(stack.isEmpty):
+                    return "Invalid expression"
                 conversion = conversion + stack.peek()
-                print("after ) conversion is ",conversion," for i ",i)
                 stack.pop()
             stack.pop()    
         else:
             if(not stack.isEmpty() and findPrecendence(i) < findPrecendence(stack.peek())):
                 while(not stack.isEmpty()):
-                    if(stack.peek == "("):
+                    if(stack.peek() == '('):
                         return "Invalid expression"
                     conversion = conversion + stack.peek()
                     stack.pop()
@@ -63,7 +62,7 @@ def infixToPostFix(expression):
                 stack.push(i)    
     
     while(not stack.isEmpty()):
-        if(stack.peek == '('):
+        if(stack.peek() == '('):
             return "Invalid expression"
         conversion = conversion + stack.peek()
         stack.pop()
@@ -71,5 +70,5 @@ def infixToPostFix(expression):
     
     return conversion
     
-print(infixToPostFix("a*(b+c)"))  
+print(infixToPostFix("a*b+c+"))  
 # print(findPrecendence('*'))
