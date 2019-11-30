@@ -1,37 +1,52 @@
-row = 3
-col = 5
-bombs = [[0,2],[1,1]]
+row = 4
+col = 4
+bombs = [[0,0],[3,3]]
 
-def Sweeper(bombs,row,col):
+def boardCreator(bombs,row,col):
     board = [[0 for x in range(col)]for y in range(row)]
-    print(bombs)
     length = len(bombs)
     for i in range(length):
-        board[bombs[i][0]][bombs[i][1]] = -1
+        rowPos = bombs[i][0]
+        colPos = bombs[i][1]
+        board[rowPos][colPos] = -1
+        for s in range(rowPos - 1, rowPos + 2):
+            for p in range(colPos - 1, colPos + 2):
+                if (s < 0 or p < 0 or s >= row or p >= col):
+                    continue
+                if (board[s][p] == -1):
+                    continue
+                board[s][p]+=1
+
     print(board)
-    for i in range(row):
-        for j in range(col):
-            if(board[i][j] == -1):
-                continue
-            count = 0
-            #print("i = ",i," j = ",j)
-            for s in range(i-1,i+2):
-                for p in range(j -1, j + 2):
-                    if(s < 0 or p < 0 or s >= row or p >= col):
-                        continue
-                   # print("S ",s," p ",p)
-                    if(board[s][p] ==  -1):
-                        count+=1
-            board[i][j] = count
-
-
-
 
     return board
 
-# i = 2
-# j = 4
-# for s in range(i - 1, i + 2):
-#     for p in range(j - 1, j + 2):
-#         print(s)
-print(Sweeper(bombs,row,col))
+def whenUserClick(rowPos,colPos):
+    Board = boardCreator(bombs,row,col)
+    if(Board[rowPos][colPos] == 0):
+        Board[rowPos][colPos] = -2
+        graphTraverse(Board,rowPos,colPos)
+    return Board
+
+
+def graphTraverse(Board,rowPos,colPos):
+    if(Board[rowPos][colPos] == -1):
+        return "Bomb Found"
+    if(Board[rowPos][colPos] != 0):
+        Board[rowPos][colPos] = -2
+        return Board
+    for s in range(rowPos - 1, rowPos + 2):
+        for p in range(colPos - 1, colPos + 2):
+            if (s < 0 or p < 0 or s >= row or p >= col):
+                continue
+            elif (Board[s][p] != 0):
+                continue
+            else:
+                Board[rowPos][colPos] = -2
+                graphTraverse(Board,s,p)
+    return Board
+
+
+
+Board = boardCreator(bombs,row,col)
+print(graphTraverse(Board,3,2))
