@@ -1,3 +1,5 @@
+import traceback
+
 row = 4
 col = 4
 bombs = [[0,0],[3,3]]
@@ -21,15 +23,15 @@ def boardCreator(bombs,row,col):
 
     return board
 
-def whenUserClick(rowPos,colPos):
-    Board = boardCreator(bombs,row,col)
-    if(Board[rowPos][colPos] == 0):
-        Board[rowPos][colPos] = -2
-        graphTraverse(Board,rowPos,colPos)
-    return Board
+# def whenUserClick(rowPos,colPos):
+#     Board = boardCreator(bombs,row,col)
+#     if(Board[rowPos][colPos] == 0):
+#         Board[rowPos][colPos] = -2
+#         graphTraverse(Board,rowPos,colPos)
+#     return Board
 
 
-def graphTraverse(Board,rowPos,colPos):
+def graphTraverseUsingDepthSearch(Board,rowPos,colPos):
     if(Board[rowPos][colPos] == -1):
         return "Bomb Found"
     if(Board[rowPos][colPos] != 0):
@@ -43,10 +45,10 @@ def graphTraverse(Board,rowPos,colPos):
                 continue
             else:
                 Board[rowPos][colPos] = -2
-                graphTraverse(Board,s,p)
+                graphTraverseUsingDepthSearch(Board,s,p)
     return Board
 
 
 
 Board = boardCreator(bombs,row,col)
-print(graphTraverse(Board,3,2))
+print(graphTraverseUsingDepthSearch(Board,3,2))
