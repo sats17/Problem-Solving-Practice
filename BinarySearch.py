@@ -26,5 +26,4 @@ def binarySearch(arr, leftIndex, rightIndex, value):
 
 
 arr = [1,2,3,4,5,11,25,67,98]
-#arrLen = 8
 print("answer is ",arr[binarySearch(arr, 0, len(arr) - 1, 67)])
