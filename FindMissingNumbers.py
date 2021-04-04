@@ -14,7 +14,6 @@ def findMissingNumbers(arr, start, end):
                 missing += 1
     return missingValues
 
-
 arr = [1, 2, 4, 6, 7, 12, 20]
 start = 1
 end = 20
