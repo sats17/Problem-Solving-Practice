@@ -2,17 +2,14 @@
 Program perform word search on paragraph and return index value of paragraph where searched word is present.
 """
 
-paragraph = "Sunset is the time of day when our sky meets the outer space solar winds. " \
-            "There are blue, pink, and purple swirls, spinning and twisting, like clouds of " \
-            "balloons caught in a whirlwind. The sun moves slowly to hide behind the line of horizon, " \
-            "while the moon races to take its place in prominence atop the night sky. People slow to a crawl," \
-            " entranced, fully forgetting the deeds that must still be done. There is a coolness, a calmness, " \
-            "when the sun does set."
-word = "the"
+paragraph = "Hello my name is lucky lucky charm lucky"
+word = "lucky"
 
 """
 Time Complexity : O(len(paragraph)) 
 """
+
+
 def getMatchedIndicesByComparingChars(paragraph, word):
     # Initialize index variable of paragraph and word
     i = 0
@@ -40,4 +37,24 @@ def getMatchedIndicesByComparingChars(paragraph, word):
     return matchedIndices
 
 
+def search(pat, txt):
+    M = len(pat)
+    N = len(txt)
+
+    # A loop to slide pat[] one by one */
+    for i in range(N - M + 1):
+        j = 0
+
+        # For current index i, check
+        # for pattern match */
+        while j < M:
+            if txt[i + j] != pat[j]:
+                break
+            j += 1
+
+        if j == M:
+            print("Pattern found at index ", i)
+
+
+# search(word, paragraph)
 getMatchedIndicesByComparingChars(paragraph, word)

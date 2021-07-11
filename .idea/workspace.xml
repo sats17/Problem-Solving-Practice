@@ -92,27 +92,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="PickTheFlower" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="D:\Study\Hackerrank-Problems\venv\Scripts\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../Installed_Softwares/Python_3" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PickTheFlower.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="SearchKeyWordInParagraph" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -126,6 +105,27 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SearchKeyWordInParagraph.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TicTacToe" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\Installed_Softwares\Python_3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../Installed_Softwares/Python_3" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TicTacToe.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -158,10 +158,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.SearchKeyWordInParagraph" />
+        <item itemvalue="Python.TicTacToe" />
         <item itemvalue="Python.CountMatcher" />
         <item itemvalue="Python.KnapsackProblems" />
         <item itemvalue="Python.ComplexityCheck" />
-        <item itemvalue="Python.PickTheFlower" />
       </list>
     </recent_temporary>
   </component>
@@ -181,41 +181,37 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="526" y="254" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog/0.0.1366.728@0.0.1366.728" timestamp="1623494085558" />
-    <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1616310714302">
+    <state width="1345" height="168" key="GridCell.Tab.0.bottom" timestamp="1625994017961">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1616310714302" />
-    <state width="1345" height="168" key="GridCell.Tab.0.bottom" timestamp="1623506017439">
+    <state width="1345" height="168" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1625994017961" />
+    <state width="1345" height="168" key="GridCell.Tab.0.center" timestamp="1625994017961">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="168" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1623506017439" />
-    <state width="1345" height="168" key="GridCell.Tab.0.center" timestamp="1623506017439">
+    <state width="1345" height="168" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1625994017961" />
+    <state width="1345" height="168" key="GridCell.Tab.0.left" timestamp="1625994017961">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="168" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1623506017439" />
-    <state width="1345" height="168" key="GridCell.Tab.0.left" timestamp="1623506017439">
+    <state width="1345" height="168" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1625994017961" />
+    <state width="1345" height="168" key="GridCell.Tab.0.right" timestamp="1625994017961">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="168" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1623506017439" />
-    <state width="1345" height="168" key="GridCell.Tab.0.right" timestamp="1623506017439">
+    <state width="1345" height="168" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1625994017961" />
+    <state width="1345" height="223" key="GridCell.Tab.1.bottom" timestamp="1623509435365">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="168" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1623506017439" />
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom" timestamp="1623494209698">
+    <state width="1345" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1623509435365" />
+    <state width="1345" height="223" key="GridCell.Tab.1.center" timestamp="1623509435365">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1623494209698" />
-    <state width="1345" height="223" key="GridCell.Tab.1.center" timestamp="1623494209698">
+    <state width="1345" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1623509435365" />
+    <state width="1345" height="223" key="GridCell.Tab.1.left" timestamp="1623509435365">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1623494209698" />
-    <state width="1345" height="223" key="GridCell.Tab.1.left" timestamp="1623494209698">
+    <state width="1345" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1623509435365" />
+    <state width="1345" height="223" key="GridCell.Tab.1.right" timestamp="1623509435365">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1623494209698" />
-    <state width="1345" height="223" key="GridCell.Tab.1.right" timestamp="1623494209698">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1623494209698" />
+    <state width="1345" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1623509435365" />
   </component>
 </project>
