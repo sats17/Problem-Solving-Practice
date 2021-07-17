@@ -1,4 +1,4 @@
-class Board:
+class Board(object):
     dashBoard = None
     horizontalPossibility = None
     verticalPossibility = None
@@ -36,7 +36,3 @@ class Board:
             self.crossPossibility[1][i] = [m, n]
             m += 1
             n -= 1
-
-
-a = Board(3)
-print(a.horizontalPossibility)

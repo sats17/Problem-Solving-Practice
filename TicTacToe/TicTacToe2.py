@@ -114,5 +114,3 @@ def resultCheck(index, value):
     currentRowIndex = 1
     size = 3
 
-
-print(resultCheck([1, 1], 1))
