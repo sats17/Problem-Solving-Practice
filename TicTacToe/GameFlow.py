@@ -1,4 +1,4 @@
-from TicTacToe import Board
+from TicTacToe.tictactoe import Board
 
 
 class GameFlow(Board.Board):
@@ -15,4 +15,4 @@ class GameFlow(Board.Board):
 a = GameFlow(3)
 print(a.verticalPossibility)
 print(a.dashBoard)
-print(a.captureMove(1,'/'))
+print(a.captureMove(1, '/'))

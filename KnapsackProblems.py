@@ -149,7 +149,7 @@ def combination(n, r):
 
     print("hagh",list(range(3)))
 
-# for i in combination(test, 2):
+# for i in combination(tictactoe, 2):
 #     print(i)
 
 for i in range(2,3):
@@ -164,14 +164,14 @@ for i in range(2,3):
 
 
 # for combo in range(1,12):  # 2 for pairs, 3 for triplets, etc
-#     resp = rSubset(test,combo)
+#     resp = rSubset(tictactoe,combo)
 #     print(resp)
 #     print(len(resp))
 #     count += len(resp)
 # print("total ",count)
-# def test():
+# def tictactoe():
 #     # return "asf"
 #     yield 1
 #     yield 2
-# for i in test():
+# for i in tictactoe():
 #     print(i)
