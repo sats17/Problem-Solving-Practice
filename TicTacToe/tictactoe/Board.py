@@ -48,9 +48,6 @@ class Board(TicTacToeI):
 
     def capture_move(self, index: list, value: str) -> object:
         response_obj = Response()
-        print(self.__size)
-        print(index[0])
-        print(isinstance(value, str))
         if not isinstance(value, str) or value.lower() not in self.get_values():
             print("Error occurs while validating value")
             return response_obj.is_valid_value(False, "Invalid value entered, please enter either x or o").build()
@@ -60,13 +57,28 @@ class Board(TicTacToeI):
             return response_obj.is_valid_index(False, "Invalid index entered").build()
         if self.__dashBoard[index[0]][index[1]] != 0:
             return response_obj.is_valid_index(False, "Invalid index entered").build()
-        self.__dashBoard[index[0]][index[1]] = self.get_values().get(value.lower())
-        print(self.__dashBoard)
-        print("Validation success")
-        return response_obj.build()
+        convertedValue = self.get_values().get(value.lower())
+        self.__dashBoard[index[0]][index[1]] = convertedValue
+        print("Updated dashboard is ", self.__dashBoard)
+        self.__resultChecker(index, convertedValue)
+        return response_obj.is_valid_value(True, None).is_valid_index(True, None).build()
+
+    def __resultChecker(self, index, value):
+        for possibilityIndex in range(len(self.__horizontalPossibility)):
+            print("Horizontal possibility at ", self.__horizontalPossibility[possibilityIndex])
+            if index in self.__horizontalPossibility[possibilityIndex]:
+                print("Found match in horizontal possibility ", index)
+                successCounter = 0
+                for possibilityValues in self.__horizontalPossibility[possibilityIndex]:
+                    print("Possibility values are ", possibilityValues)
+                    dashBoardValue = self.__dashBoard[possibilityValues[0]][possibilityValues[1]]
+                    if value == dashBoardValue:
+                        successCounter += 1
+                if successCounter == 3:
+                    print("matched horizontal ", self.__horizontalPossibility[possibilityIndex])
+                    return
 
 
 a = Board(3)
-print(a.get_dashboard())
-print(a.capture_move([1, 1], "o"))
+print("move caputere ", a.capture_move([1, 1], "o"))
 print(a.capture_move([1, 1], "o"))
