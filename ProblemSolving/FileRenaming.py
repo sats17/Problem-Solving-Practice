@@ -14,6 +14,7 @@ input = old - aaabbbccc
 output - 0 (because only consecutive character deletion allowed)
 
 """
+from itertools import combinations
 
 
 def renameFile(newName, oldName):
@@ -36,7 +37,7 @@ def renameFile(newName, oldName):
     return count
 
 
-def renameFile2(newName, oldName):
+def renameFileUsingOurOwnCombinationLogic(newName, oldName):
     diffNum = len(oldName) - len(newName)
     count = 0
     oldNameCounter = 0
@@ -51,4 +52,19 @@ def renameFile2(newName, oldName):
     # Last seen was https://www.geeksforgeeks.org/iterating-over-all-possible-combinations-in-an-array-using-bits/
 
 
-print(renameFile2("abc", "abcbc"))
+def renameFileUsingItertoolsCombination(newName, oldName):
+    oldNameCharsList = []
+    newNameCharsList = []
+    newNameMatchingCounter = 0
+    for i in oldName:
+        oldNameCharsList.append(i)
+    for i in newName:
+        newNameCharsList.append(i)
+    combinationsListForOldName = list(combinations(oldNameCharsList, len(newName)))
+    for i in combinationsListForOldName:
+        if newNameCharsList == list(i):
+            newNameMatchingCounter = newNameMatchingCounter + 1
+    return newNameMatchingCounter
+
+
+print("Total combination we can get ", renameFileUsingItertoolsCombination("d", "aaabbbccc"))
