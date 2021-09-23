@@ -67,4 +67,13 @@ def renameFileUsingItertoolsCombination(newName, oldName):
     return newNameMatchingCounter
 
 
+def renameFileUsingCombination(newName, oldName):
+    return
+
+def combination(charArray, length):
+    """Using 3 loops we can achieve, first loop will be len of charArray, second loop will get each other
+    possibilities. The middle item will be counted by length. ex : we have 4 len, then it will be goes like
+    aaab, aaab, aaab, aaac...... then aabb, aabb. aabc......"""
+
+
 print("Total combination we can get ", renameFileUsingItertoolsCombination("d", "aaabbbccc"))
