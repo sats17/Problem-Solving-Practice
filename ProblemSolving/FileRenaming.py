@@ -70,10 +70,30 @@ def renameFileUsingItertoolsCombination(newName, oldName):
 def renameFileUsingCombination(newName, oldName):
     return
 
+
 def combination(charArray, length):
     """Using 3 loops we can achieve, first loop will be len of charArray, second loop will get each other
     possibilities. The middle item will be counted by length. ex : we have 4 len, then it will be goes like
     aaab, aaab, aaab, aaac...... then aabb, aabb. aabc......"""
+    """
+    Observation 2 : 
+    We have to loop over each element from descending area to get each combination - 
+    like abcd, abce, abcf........
+    abde, abdf, abdg,
+    acde..., acef...
+    bcde...
+    
+    """
+    print(list(combinations(charArray, 4)))
+    for i in range(0, len(charArray)):
+
+        print(i)
+        print("Length = ",length)
+        preWordArr = []
+        for j in range(1, length - 1):
+            print("Char arr ", j)
 
 
-print("Total combination we can get ", renameFileUsingItertoolsCombination("d", "aaabbbccc"))
+combination(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'], 5)
+
+# print("Total combination we can get ", renameFileUsingItertoolsCombination("d", "aaabbbccc"))
