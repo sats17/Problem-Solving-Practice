@@ -71,29 +71,52 @@ def renameFileUsingCombination(newName, oldName):
     return
 
 
-def combination(charArray, length):
-    """Using 3 loops we can achieve, first loop will be len of charArray, second loop will get each other
-    possibilities. The middle item will be counted by length. ex : we have 4 len, then it will be goes like
-    aaab, aaab, aaab, aaac...... then aabb, aabb. aabc......"""
+combinationResult = []
+
+
+def combination(charArray, combinationLength, combinationValue=[], combinationList=[], test= 0):
     """
-    Observation 2 : 
-    We have to loop over each element from descending area to get each combination - 
-    like abcd, abce, abcf........
-    abde, abdf, abdg,
-    acde..., acef...
-    bcde...
-    
+    Method generate all combinations from given array, uses recursion within each element of loop.
+    Using loop we are iterating over each element and picking that element we are calling recrusive method so from
+    onwards that element loop will get started to iterate.
+    "What is left " We have to figure out how to return list of result from combination method
+    :param test:
+    :param charArray:
+    :param combinationLength:
+    :param combinationValue:
+    :param combinationList:
+    :return:
     """
-    print(list(combinations(charArray, 4)))
-    for i in range(0, len(charArray)):
+    if combinationLength == 0:
+        return combinationList
+    for x in charArray:
+        test = test + 1
+        print("test ",test)
+        print("x ", x)
+        combinationValue.append(x)  # Appending value to combination
+        combinationList.append(combinationValue)
+        combination(charArray, combinationLength - 1, combinationValue, combinationList, test)
+        combinationValue.pop()  # Popping value from combination, after recursive combination operation done
+        print(combinationValue)
+    return combinationList
 
-        print(i)
-        print("Length = ",length)
-        preWordArr = []
-        for j in range(1, length - 1):
-            print("Char arr ", j)
+
+def dynamicLoop(arr, length):
+    """
+    Method run dynamic loop using recursion, by decreasing length for each field of loop we
+    are iterating.
+    :param arr:
+    :param length:
+    :param lis:
+    :return:
+    """
+    if length == 0:
+        return
+    for i in arr:
+        print("Calling other loop from ", i)
+        dynamicLoop(arr, length - 1)
 
 
-combination(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'], 5)
-
+print(combination(['a', 'b', 'c', 'd', 'e'], 3))
+# print(combinationResult)
 # print("Total combination we can get ", renameFileUsingItertoolsCombination("d", "aaabbbccc"))
