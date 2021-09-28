@@ -80,6 +80,7 @@ def combination(charArray, combinationLength, combinationValue=[], combinationLi
     Using loop we are iterating over each element and picking that element we are calling recrusive method so from
     onwards that element loop will get started to iterate.
     "What is left " We have to figure out how to return list of result from combination method
+    : we can figure it out if we can use pass-by-reference to combinationList
     :param test:
     :param charArray:
     :param combinationLength:
