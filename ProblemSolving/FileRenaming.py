@@ -74,7 +74,7 @@ def renameFileUsingCombination(newName, oldName):
 combinationResult = []
 
 
-def combination(charArray, combinationLength, combinationValue=(), combinationList=[], test= 0):
+def combination(charArray, combinationLength, combinationValue=(), combinationList=[], test=0):
     """
     Method generate all combinations from given array, uses recursion within each element of loop.
     Using loop we are iterating over each element and picking that element we are calling recrusive method so from
@@ -82,6 +82,8 @@ def combination(charArray, combinationLength, combinationValue=(), combinationLi
     "What is left " We have to figure out how to return list of result from combination method
     : we can figure it out if we can use pass-by-reference to combinationList
     "What next ": Figure out how below tuple is working as by running loop our tuple should get blank
+    "What next : I can see tuple is not popping value which can be discrepency to us, for that we need to check
+    python memory or try code in java
     :param test:
     :param charArray:
     :param combinationLength:
@@ -89,33 +91,26 @@ def combination(charArray, combinationLength, combinationValue=(), combinationLi
     :param combinationList:
     :return:
     """
-    print("Start list",combinationList)
+    print("Start list", combinationList)
     if combinationLength == 0:
-        print("combination value ",combinationValue)
-        print("Added id ",id(combinationValue))
         combinationList.append(combinationValue)
-        print("aftet appending value to list ",combinationList)
         return combinationList
     for x in charArray:
-        print("current itertion value ",x)
-        print("Before appending value ",combinationList)
-        print("For loop id",id(combinationValue))
-        print("Combinationvalue before ",combinationValue)
+        print("Intial tuple value ", combinationValue, id(combinationValue))
         combinationValueFormatList = list(combinationValue)
         combinationValueFormatList.append(x)  # Appending value to combination
-        print("Combinaion value after append",combinationValue)
+        # converting to tuple so that when we are poppin
         combinationValueFormatTuple = tuple(combinationValueFormatList)
-        print("After appending value ", combinationList)
         combination(charArray, combinationLength - 1, combinationValueFormatTuple, combinationList, test)
-        print("Before popping list", combinationList)
+        print("Before popping tuple", combinationValueFormatTuple, id(combinationValueFormatTuple))
         combinationPopList = list(combinationValueFormatTuple)
+        print("before popping tuple value",combinationValue, id(combinationValue))
         combinationPopList.pop()  # Popping value from combination, after recursive combination operation done
         tuple(combinationPopList)
-        print("After popping list", combinationList)
-        print("value ",combinationValueFormatList)
-        print("Combinationvalue after ", combinationValue)
-    print("combination list ",combinationList)
+        print("At the end tuple value ",combinationValue, id(combinationValue))
+    print("combination list ", combinationList)
     return combinationList
+
 
 def dynamicLoop(arr, length):
     """
@@ -133,7 +128,7 @@ def dynamicLoop(arr, length):
         dynamicLoop(arr, length - 1)
 
 
-#print(combination(['a', 'b', 'c'], 3))
+print(combination(['a', 'b', 'c'], 3))
 
 tup = (1, 2, 3)
 print(id(tup))
@@ -142,7 +137,7 @@ print(id(lis))
 upList = lis.append(4)
 # upTuple = tuple(lis)
 # upList = list(upTuple)
-#upList.pop()
+# upList.pop()
 tuple(lis)
 print(tup)
 # print(id(li))
