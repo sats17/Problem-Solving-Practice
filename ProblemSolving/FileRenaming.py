@@ -38,16 +38,18 @@ def renameFile(newName, oldName):
 
 
 def renameFileUsingOurOwnCombinationLogic(newName, oldName):
-    diffNum = len(oldName) - len(newName)
-    count = 0
-    oldNameCounter = 0
-    newNameCounter = 0
-    while oldNameCounter < len(oldName):
-        insideOldNameCounter = oldNameCounter
-        insideNewNameCounter = newNameCounter
-        if oldName[oldNameCounter] == newName[newNameCounter]:
-            insideOldNameCounter
-        oldNameCounter = oldNameCounter + 1
+    oldNameCharsList = []
+    newNameCharsList = []
+    newNameMatchingCounter = 0
+    for i in oldName:
+        oldNameCharsList.append(i)
+    for i in newName:
+        newNameCharsList.append(i)
+    combinationsListForOldName = combination(oldNameCharsList, len(newName))
+    for i in combinationsListForOldName:
+        if newNameCharsList == list(i):
+            newNameMatchingCounter = newNameMatchingCounter + 1
+    return newNameMatchingCounter
     # Working on how we can found out all possible ways to iterate oldName(Or any array)
     # Last seen was https://www.geeksforgeeks.org/iterating-over-all-possible-combinations-in-an-array-using-bits/
 
@@ -67,13 +69,6 @@ def renameFileUsingItertoolsCombination(newName, oldName):
     return newNameMatchingCounter
 
 
-def renameFileUsingCombination(newName, oldName):
-    return
-
-
-combinationResult = []
-
-
 def combination(charArray, combinationLength, combinationValue=(), combinationList=[]):
     """
     Method generate all combinations of elements from given array, it uses recursion inside iteration of array elements.
@@ -83,7 +78,7 @@ def combination(charArray, combinationLength, combinationValue=(), combinationLi
     Also we need to return collected combination so we are using list and tuple here. as we cannot pass list in recursion
     method because pass by reference update issue, we are passing tuple here so it can have it's individual values.
 
-    Note : for python we don't require popping afte recursive method
+    Note : for python we don't require popping after recursive method
     :param test:
     :param charArray:
     :param combinationLength:
@@ -95,7 +90,6 @@ def combination(charArray, combinationLength, combinationValue=(), combinationLi
         combinationList.append(combinationValue)
         return combinationList
     for x in charArray:
-        print(combinationValue)
         combinationValueFormatList = list(combinationValue)
         combinationValueFormatList.append(x)  # Appending value to combination
         # which is helping us not to remove elements from final list when we popped.
@@ -105,7 +99,6 @@ def combination(charArray, combinationLength, combinationValue=(), combinationLi
         # Commenting pop here as we are not required
         # combinationValueFormatList.pop()  # Popping value from combination, after recursive combination operation done
         # tuple(combinationValueFormatList.pop())
-    print("combination list ", combinationList)
     return combinationList
 
 
@@ -125,24 +118,6 @@ def dynamicLoop(arr, length):
         dynamicLoop(arr, length - 1)
 
 
-print(combination(['a', 'b', 'c'], 2))
+#print(combination(['a', 'b', 'c'], 2))
 
-tup = (1, 2, 3)
-print(id(tup))
-lis = list(tup)
-print(id(lis))
-upList = lis.append(4)
-# upTuple = tuple(lis)
-# upList = list(upTuple)
-# upList.pop()
-tuple(lis)
-print(tup)
-# print(id(li))
-# print(li)
-# def testPas(li):
-#     li.append(4)
-#     print(id(li))
-# testPas(li)
-# print(li)
-# print(combinationResult)
-# print("Total combination we can get ", renameFileUsingItertoolsCombination("d", "aaabbbccc"))
+print("Total combination we can get ", renameFileUsingItertoolsCombination("bb", "aaabbbccc"))
