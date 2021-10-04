@@ -38,6 +38,11 @@ def renameFile(newName, oldName):
 
 
 def renameFileUsingOurOwnCombinationLogic(newName, oldName):
+    """
+    :param newName:
+    :param oldName:
+    :return:
+    """
     oldNameCharsList = []
     newNameCharsList = []
     newNameMatchingCounter = 0
@@ -69,7 +74,7 @@ def renameFileUsingItertoolsCombination(newName, oldName):
     return newNameMatchingCounter
 
 
-def combination(charArray, combinationLength, combinationValue=(), combinationList=[]):
+def combination(charArray, combinationLength, combinationValue=(), combinationList=[], offset=0):
     """
     Method generate all combinations of elements from given array, it uses recursion inside iteration of array elements.
     So for every i th element we are calling recursive method which has decreasing size and combination appended value.
@@ -79,21 +84,21 @@ def combination(charArray, combinationLength, combinationValue=(), combinationLi
     method because pass by reference update issue, we are passing tuple here so it can have it's individual values.
 
     Note : for python we don't require popping after recursive method
-    :param test:
-    :param charArray:
-    :param combinationLength:
-    :param combinationValue:
-    :param combinationList:
+    :param charArray: characters array from that we want combination
+    :param combinationLength: what length of combination we want
+    :param combinationValue: Single combination value
+    :param combinationList: List of combinations
+    :param offset: offset use to do not iterate loop from start as we want our combination unique.
     :return:
     """
     if combinationLength == 0:
         combinationList.append(combinationValue)
         return combinationList
-    for x in charArray:
+    for x in range(offset, len(charArray)):
         combinationValueFormatList = list(combinationValue)
-        combinationValueFormatList.append(x)  # Appending value to combination
+        combinationValueFormatList.append(charArray[x])  # Appending value to combination
         # which is helping us not to remove elements from final list when we popped.
-        combination(charArray, combinationLength - 1, tuple(combinationValueFormatList), combinationList)
+        combination(charArray, combinationLength - 1, tuple(combinationValueFormatList), combinationList, x + 1)
         # combinationPopList = list(combinationValueFormatList)
         # print("After recursion ", combinationValueFormatList)
         # Commenting pop here as we are not required
@@ -118,6 +123,6 @@ def dynamicLoop(arr, length):
         dynamicLoop(arr, length - 1)
 
 
-#print(combination(['a', 'b', 'c'], 2))
+#print(combination(['a', 'c', 'a','b','b'], 2))
 
-print("Total combination we can get ", renameFileUsingItertoolsCombination("bb", "aaabbbccc"))
+print("Total combination we can get ", renameFileUsingOurOwnCombinationLogic("abc", "aaabbbccc"))
