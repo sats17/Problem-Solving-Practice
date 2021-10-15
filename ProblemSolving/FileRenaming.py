@@ -77,8 +77,11 @@ def renameFileUsingItertoolsCombination(newName, oldName):
 def combination(charArray, combinationLength, combinationValue=(), combinationList=[], offset=0):
     """
     Method generate all combinations of elements from given array, it uses recursion inside iteration of array elements.
-    So for every i th element we are calling recursive method which has decreasing size and combination appended value.
+    So for every i th element we are calling recursive method which has decreasing length and combination appended value.
     At last when size reduced to 0 we are returning appended combination value. and next iteration will run as it is.
+
+    This method does not pick duplicate elements like for a,b,c,d,e data with length 3 it will not consider a,a,a hence
+    we used offset which tells loop to start with next element from previous loop.
 
     Also we need to return collected combination so we are using list and tuple here. as we cannot pass list in recursion
     method because pass by reference update issue, we are passing tuple here so it can have it's individual values.
@@ -94,11 +97,11 @@ def combination(charArray, combinationLength, combinationValue=(), combinationLi
     if combinationLength == 0:
         combinationList.append(combinationValue)
         return combinationList
-    for x in range(offset, len(charArray)):
+    for index in range(offset, len(charArray)):
         combinationValueFormatList = list(combinationValue)
-        combinationValueFormatList.append(charArray[x])  # Appending value to combination
+        combinationValueFormatList.append(charArray[index])  # Appending value to combination
         # which is helping us not to remove elements from final list when we popped.
-        combination(charArray, combinationLength - 1, tuple(combinationValueFormatList), combinationList, x + 1)
+        combination(charArray, combinationLength - 1, tuple(combinationValueFormatList), combinationList, index + 1)
         # combinationPopList = list(combinationValueFormatList)
         # print("After recursion ", combinationValueFormatList)
         # Commenting pop here as we are not required
@@ -123,6 +126,8 @@ def dynamicLoop(arr, length):
         dynamicLoop(arr, length - 1)
 
 
-#print(combination(['a', 'c', 'a','b','b'], 2))
+#print(combination(['a', 'c', 'b'], 3))
 
-print("Total combination we can get ", renameFileUsingOurOwnCombinationLogic("abc", "aaabbbccc"))
+#print("Total combination we can get ", renameFileUsingOurOwnCombinationLogic("abc", "aaabbbccc"))
+
+
