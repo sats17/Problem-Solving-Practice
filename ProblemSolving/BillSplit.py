@@ -78,10 +78,10 @@ def calculateWhoCanPayWhom(zippedPaymentData, contriPayment):
     even = {}
     for i in zippedPaymentData:
         tempPayment = zippedPaymentData.get(i)
-        if tempPayment > contriPayment:
-            plus[i] = tempPayment - contriPayment
-        elif tempPayment < contriPayment:
-            minus[i] = contriPayment - tempPayment
+        if tempPayment < contriPayment:
+            plus[i] = contriPayment - tempPayment
+        elif tempPayment > contriPayment:
+            minus[i] = tempPayment - contriPayment
         else:
             even[i] = 0
     consolidatedResponse['plus'] = plus
@@ -100,13 +100,52 @@ def printPaymentInfo(differentiatedResponse):
     minusCounter = 0
     plusList = []
     minusList = []
-    # for plus in plus.items():
-    #     plusList.append(list(plus))
-    # for minus in minus.items():
-    #     minusList.append(list(minus))
-    print("size", len(plus))
-    print("Plus List", plusList)
-    print("Minus List", minusList)
+    for plus in plus.items():
+        plusList.append(list(plus))
+    for minus in minus.items():
+        minusList.append(list(minus))
+
+    size = len(minus) if len(minus) > len(plus) else len(plus)
+    i = 0
+    events = []
+    while True:
+        if plusCounter > len(plusList) - 1 and minusCounter > len(minusList) - 1:
+            break
+        print("Plus counter ", plusCounter)
+        print("Minus counter", minusCounter)
+        currentPlus = plusList[plusCounter]
+        currentMinus = minusList[minusCounter]
+        print("Current plus ", currentPlus)
+        if currentPlus[1] != 0 and currentPlus[1] < currentMinus[1]:
+            events.append(eventGenerator(currentPlus[0], currentPlus[1], currentMinus[0]))
+            exchangeValue = plusList[plusCounter][1]
+            plusList[plusCounter][1] = 0
+            minusList[minusCounter][1] = minusList[minusCounter][1] - exchangeValue
+            plusCounter = plusCounter + 1
+        if currentMinus[1] != 0 and currentPlus[1] > currentMinus[1]:
+            events.append(eventGenerator(currentPlus[0], currentPlus[1], currentMinus[0]))
+            exchangeValue = minusList[minusCounter][1]
+            minusList[minusCounter][1] = 0
+            plusList[plusCounter][1] = plusList[plusCounter][1] - exchangeValue
+            minusCounter = minusCounter + 1
+        if currentMinus[1] != 0 and currentPlus[1] != 0 and currentPlus[1] == currentMinus[1]:
+            events.append(eventGenerator(currentPlus[0], currentPlus[1], currentMinus[0]))
+            plusList[plusCounter][1] = 0
+            minusList[minusCounter][1] = 0
+            minusCounter = minusCounter + 1
+            plusCounter = plusCounter + 1
+        # if currentPlus[1] == 0:
+        #
+        #     print(plusCounter)
+        # if currentMinus[1] == 0:
+
+        print("Updated plus list", plusList)
+        print("Updated minus list ", minusList)
+    print(events)
+
+
+def eventGenerator(payerName, amount, reciverName):
+    return str(payerName) + " will pay " + str(amount) + " to " + str(reciverName)
 
 
 """
