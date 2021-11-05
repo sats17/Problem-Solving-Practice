@@ -13,11 +13,13 @@ def getPaymentExchangeInformation(totalMembers, expense):
     print("Total bill ", totalBill)
     expectedContriBillForEachMember = calculateExpectedContributionFromEachMember(totalBill, totalMembers)
     print("Each members contri should be ", expectedContriBillForEachMember)
-    totalPayFromEachMemberForEachSource = calculateTotalPaymentFromEachMembers(expense, totalMembers)
+    totalPayFromEachMemberForEachSource = calculateTotalPaymentByEachMembers(expense)
     print("Total members payment for each source ", totalPayFromEachMemberForEachSource)
     names = getNamesFromExpenses(expense)
     zippedPaymentData = zipPaymentAndNames(names, totalPayFromEachMemberForEachSource)
-    differntiateWhoCanPayWhom(zippedPaymentData, expectedContriBillForEachMember)
+    differentiatedResponse = calculateWhoCanPayWhom(zippedPaymentData, expectedContriBillForEachMember)
+    print("Differentiated response ", differentiatedResponse)
+    printPaymentInfo(differentiatedResponse)
 
     return 0
 
@@ -33,7 +35,7 @@ def calculateExpectedContributionFromEachMember(totalBill, member):
     return totalBill / member
 
 
-def calculateTotalPaymentFromEachMembers(expense, totalMembers):
+def calculateTotalPaymentByEachMembers(expense):
     totalMembersPayment = []
     tempArrayForTotalPayment = []
     for i in expense:
@@ -69,13 +71,42 @@ def getNamesFromExpenses(expense):
     return names
 
 
-def differntiateWhoCanPayWhom(zippedPaymentData, contriPayment):
+def calculateWhoCanPayWhom(zippedPaymentData, contriPayment):
+    consolidatedResponse = {}
     plus = {}
     minus = {}
+    even = {}
     for i in zippedPaymentData:
-        print(i)
+        tempPayment = zippedPaymentData.get(i)
+        if tempPayment > contriPayment:
+            plus[i] = tempPayment - contriPayment
+        elif tempPayment < contriPayment:
+            minus[i] = contriPayment - tempPayment
+        else:
+            even[i] = 0
+    consolidatedResponse['plus'] = plus
+    consolidatedResponse['minus'] = minus
+    consolidatedResponse['even'] = even
+    return consolidatedResponse
 
-    return 0
+
+def printPaymentInfo(differentiatedResponse):
+    plus = differentiatedResponse.get('plus')
+    minus = differentiatedResponse.get('minus')
+    print("Plus ", plus)
+    print("Minus ", minus)
+    isTransactionGoing = True
+    plusCounter = 0
+    minusCounter = 0
+    plusList = []
+    minusList = []
+    # for plus in plus.items():
+    #     plusList.append(list(plus))
+    # for minus in minus.items():
+    #     minusList.append(list(minus))
+    print("size", len(plus))
+    print("Plus List", plusList)
+    print("Minus List", minusList)
 
 
 """
