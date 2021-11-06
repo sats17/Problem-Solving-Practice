@@ -140,7 +140,7 @@ def generateResolvedContributionEvents(differentiatedResponse):
 
 
 def eventGenerator(creditorName, amount, debtorName):
-    return str(creditorName) + " will pay " + str(amount) + " to " + str(debtorName)
+    return str(creditorName) + " will pay " + str(amount) + " rupees to " + str(debtorName)
 
 
 """
@@ -156,12 +156,84 @@ def eventGenerator(creditorName, amount, debtorName):
 }
 """
 
-if __name__ == "__main__":
-    totalMembers = 4
-    expense = {"petrol": {"bill": 470, "payments": {"a": 470, "b": 0, "c": 0, "d": 0}},
-               "room": {"bill": 890, "payments": {"a": 0, "b": 890, "c": 0, "d": 0}},
-               "rent": {"bill": 1200, "payments": {"a": 0, "b": 0, "c": 1200, "d": 000}}
-               }
-    events = getPaymentExchangeInformation(totalMembers, expense)
+
+def checkValidInteger(input):
+    try:
+        # Convert it into integer
+        val = int(input)
+        print("Input is an integer number. Number = ", val)
+        return True
+    except ValueError:
+        try:
+            # Convert it into float
+            val = float(input)
+            print("Input is a float  number. Number = ", val)
+            return True
+        except ValueError:
+            print("No.. input is not a number. It's a string")
+            return False
+
+
+def checkValidNames(membersCount, names):
+    if len(names) != membersCount or len(set(names)) != membersCount:
+        return False
+    for name in names:
+        if len(name) <= 0 or len(name) > 10:
+            return False
+    return True
+
+
+def checkValidMerchantNames(names):
+    for name in names:
+        if len(name) <= 0 or len(name) > 10:
+            return False
+    return True
+
+
+def main():
+    print("Hello there, I am here to help you to solve your headache for contribution.")
+    members = input("Tell me how many members you are there = ")
+    while not checkValidInteger(members):
+        print("What are you typing, use proper integer values.")
+        members = input("Here try again = ")
+    members = int(members)
+    inputNames = input(
+        "Okay.. now enter each of your names with comma separate[Example : Satish, Test, test] = ").strip(",")
+    names = [name.strip() for name in inputNames.split(',')]
+    while not checkValidNames(members, names):
+        print("Rejected names, enter proper names. [Example : Satish, Test, test] =")
+        inputNames = input("Here try again = ").strip(",")
+        names = [name.strip() for name in inputNames.split(',')]
+    print("yeah correct names ", names)
+    inputMerchantNames = input(
+        "Okay.. now enter merchant with comma separate[Example : Petrol, food, rent] = ").strip(",")
+    merchantNames = [name.strip() for name in inputMerchantNames.split(',')]
+    while not checkValidMerchantNames(merchantNames):
+        print("Rejected merchant names, enter proper names. [Example : Petrol, food, rent]")
+        inputMerchantNames = input("Here try again = ").strip(",")
+        merchantNames = [name.strip() for name in inputMerchantNames.split(',')]
+    print("Merchant nams ", merchantNames)
+    print("Okay now enter payments for each following items...")
+    expense = {}
+    for merchant in merchantNames:
+        print("Merchant is ", merchant)
+        payments = {}
+        total = 0
+        for name in names:
+            payment = input("Enter how much money paid by " + name + " = ")
+            while not checkValidInteger(payment):
+                print("What are you typing, use proper integer values.")
+                payment = input("Here try again = ")
+            payments[name] = int(payment)
+            total = total + int(payment)
+        merchantData = {"bill": total, "payments": payments}
+        expense[merchant] = merchantData
+    print("Expense ", expense)
+    events = getPaymentExchangeInformation(members, expense)
+    print("So we have resolved your contributions headache, please check below..")
     for event in events:
         print(event)
+
+
+if __name__ == "__main__":
+    main()
