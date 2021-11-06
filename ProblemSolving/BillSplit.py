@@ -9,19 +9,19 @@ function return - Will return result about who have to pay whom and how much
 def getPaymentExchangeInformation(totalMembers, expense):
     print("Total members ", totalMembers)
     print("Expense data ", expense)
+    names = extractMembersNames(expense)
     totalBill = calculateTotalBill(expense)
     print("Total bill ", totalBill)
-    expectedContriBillForEachMember = calculateExpectedContributionFromEachMember(totalBill, totalMembers)
-    print("Each members contri should be ", expectedContriBillForEachMember)
+    expectedContributionBillFromEachMember = calculateExpectedContributionFromEachMember(totalBill, totalMembers)
+    print("Expected contribution from each members ", expectedContributionBillFromEachMember)
     totalPayFromEachMemberForEachSource = calculateTotalPaymentByEachMembers(expense)
     print("Total members payment for each source ", totalPayFromEachMemberForEachSource)
-    names = getNamesFromExpenses(expense)
     zippedPaymentData = zipPaymentAndNames(names, totalPayFromEachMemberForEachSource)
-    differentiatedResponse = calculateWhoCanPayWhom(zippedPaymentData, expectedContriBillForEachMember)
+    differentiatedResponse = differentiateCreditorAndDebtor(zippedPaymentData, expectedContributionBillFromEachMember)
     print("Differentiated response ", differentiatedResponse)
-    printPaymentInfo(differentiatedResponse)
+    events = generateResolvedContributionEvents(differentiatedResponse)
 
-    return 0
+    return events
 
 
 def calculateTotalBill(expense):
@@ -36,32 +36,31 @@ def calculateExpectedContributionFromEachMember(totalBill, member):
 
 
 def calculateTotalPaymentByEachMembers(expense):
-    totalMembersPayment = []
+    totalMembersPaymentArray = []
     tempArrayForTotalPayment = []
     for i in expense:
         tempPayment = []
         payments = expense.get(i).get('payments')
-        for j in payments:
-            tempPayment.append(payments.get(j))
+        for names in payments:
+            tempPayment.append(payments.get(names))
         tempArrayForTotalPayment.append(tempPayment)
-    zippedPaymentOfEachMembers = zip(*tempArrayForTotalPayment)
-    for i in zippedPaymentOfEachMembers.__iter__():
-        eachPayment = 0
-        for j in i:
-            eachPayment = eachPayment + j
-        totalMembersPayment.append(eachPayment)
-    return totalMembersPayment
+    zippedPaymentOfEachMembers = zip(*tempArrayForTotalPayment)  # zip arrays present in tempArrayForTotalPayment
+    for eachMemberPaymentArray in zippedPaymentOfEachMembers.__iter__():
+        totalPaymentByEachMember = 0
+        for payment in eachMemberPaymentArray:
+            totalPaymentByEachMember = totalPaymentByEachMember + payment
+        totalMembersPaymentArray.append(totalPaymentByEachMember)
+    return totalMembersPaymentArray
 
 
 def zipPaymentAndNames(names, payment):
     zippedData = {}
     for name, payment in zip(names, payment):
         zippedData[name] = payment
-    print(zippedData)
     return zippedData
 
 
-def getNamesFromExpenses(expense):
+def extractMembersNames(expense):
     names = []
     for i in expense:
         paymentList = expense.get(i)
@@ -71,81 +70,77 @@ def getNamesFromExpenses(expense):
     return names
 
 
-def calculateWhoCanPayWhom(zippedPaymentData, contriPayment):
+def differentiateCreditorAndDebtor(zippedPaymentData, expectedContributionBill):
     consolidatedResponse = {}
-    plus = {}
-    minus = {}
+    creditor = {}
+    debtor = {}
     even = {}
-    for i in zippedPaymentData:
-        tempPayment = zippedPaymentData.get(i)
-        if tempPayment < contriPayment:
-            plus[i] = contriPayment - tempPayment
-        elif tempPayment > contriPayment:
-            minus[i] = tempPayment - contriPayment
+    for name in zippedPaymentData:
+        paymentFromMember = zippedPaymentData.get(name)
+        if paymentFromMember < expectedContributionBill:
+            creditor[name] = expectedContributionBill - paymentFromMember
+        elif paymentFromMember > expectedContributionBill:
+            debtor[name] = paymentFromMember - expectedContributionBill
         else:
-            even[i] = 0
-    consolidatedResponse['plus'] = plus
-    consolidatedResponse['minus'] = minus
+            even[name] = 0
+    consolidatedResponse['creditor'] = creditor
+    consolidatedResponse['debtor'] = debtor
     consolidatedResponse['even'] = even
     return consolidatedResponse
 
 
-def printPaymentInfo(differentiatedResponse):
-    plus = differentiatedResponse.get('plus')
-    minus = differentiatedResponse.get('minus')
-    print("Plus ", plus)
-    print("Minus ", minus)
-    isTransactionGoing = True
-    plusCounter = 0
-    minusCounter = 0
-    plusList = []
-    minusList = []
-    for plus in plus.items():
-        plusList.append(list(plus))
-    for minus in minus.items():
-        minusList.append(list(minus))
-
-    size = len(minus) if len(minus) > len(plus) else len(plus)
-    i = 0
+def generateResolvedContributionEvents(differentiatedResponse):
     events = []
+    creditor = differentiatedResponse.get('creditor')
+    debtor = differentiatedResponse.get('debtor')
+    print("Creditors ", creditor)
+    print("Debtor ", debtor)
+    creditCounter = 0
+    debtCounter = 0
+    creditorsList = []
+    debtorsList = []
+    for creditor in creditor.items():
+        creditorsList.append(list(creditor))
+    for debtor in debtor.items():
+        debtorsList.append(list(debtor))
+
     while True:
-        if plusCounter > len(plusList) - 1 and minusCounter > len(minusList) - 1:
+        # Running creditorList and debtorList simultaneously, once operations on both list completed then breaking
+        # this loop to avoid array index out of bound errors
+        if creditCounter > len(creditorsList) - 1 and debtCounter > len(debtorsList) - 1:
             break
-        print("Plus counter ", plusCounter)
-        print("Minus counter", minusCounter)
-        currentPlus = plusList[plusCounter]
-        currentMinus = minusList[minusCounter]
-        print("Current plus ", currentPlus)
-        if currentPlus[1] != 0 and currentPlus[1] < currentMinus[1]:
-            events.append(eventGenerator(currentPlus[0], currentPlus[1], currentMinus[0]))
-            exchangeValue = plusList[plusCounter][1]
-            plusList[plusCounter][1] = 0
-            minusList[minusCounter][1] = minusList[minusCounter][1] - exchangeValue
-            plusCounter = plusCounter + 1
-        if currentMinus[1] != 0 and currentPlus[1] > currentMinus[1]:
-            events.append(eventGenerator(currentPlus[0], currentPlus[1], currentMinus[0]))
-            exchangeValue = minusList[minusCounter][1]
-            minusList[minusCounter][1] = 0
-            plusList[plusCounter][1] = plusList[plusCounter][1] - exchangeValue
-            minusCounter = minusCounter + 1
-        if currentMinus[1] != 0 and currentPlus[1] != 0 and currentPlus[1] == currentMinus[1]:
-            events.append(eventGenerator(currentPlus[0], currentPlus[1], currentMinus[0]))
-            plusList[plusCounter][1] = 0
-            minusList[minusCounter][1] = 0
-            minusCounter = minusCounter + 1
-            plusCounter = plusCounter + 1
-        # if currentPlus[1] == 0:
-        #
-        #     print(plusCounter)
-        # if currentMinus[1] == 0:
-
-        print("Updated plus list", plusList)
-        print("Updated minus list ", minusList)
-    print(events)
+        print("Credit counter ", creditCounter)
+        print("Debit counter", debtCounter)
+        currentCreditor = creditorsList[creditCounter]
+        currentDebtor = debtorsList[debtCounter]
+        # When Credit person have less amount that debit person, then creditor pay all his amount to debtor
+        if currentCreditor[1] != 0 and currentCreditor[1] < currentDebtor[1]:
+            events.append(eventGenerator(currentCreditor[0], currentCreditor[1], currentDebtor[0]))
+            exchangeValue = creditorsList[creditCounter][1]
+            creditorsList[creditCounter][1] = 0
+            debtorsList[debtCounter][1] = debtorsList[debtCounter][1] - exchangeValue
+            creditCounter = creditCounter + 1  # Increase counter to iterate to next debtor
+        # When debit person have less amount that credit person, then creditor will pay only amount that debtor have
+        if currentDebtor[1] != 0 and currentCreditor[1] > currentDebtor[1]:
+            events.append(eventGenerator(currentCreditor[0], currentDebtor[1], currentDebtor[0]))
+            exchangeValue = debtorsList[debtCounter][1]
+            debtorsList[debtCounter][1] = 0
+            creditorsList[creditCounter][1] = creditorsList[creditCounter][1] - exchangeValue
+            debtCounter = debtCounter + 1  # Increase counter to iterate to next debtor
+        # When credit person and debit person have equal amount, then creditor will pay whatever he have to debtor
+        if currentDebtor[1] != 0 and currentCreditor[1] != 0 and currentCreditor[1] == currentDebtor[1]:
+            events.append(eventGenerator(currentCreditor[0], currentCreditor[1], currentDebtor[0]))
+            creditorsList[creditCounter][1] = 0
+            debtorsList[debtCounter][1] = 0
+            debtCounter = debtCounter + 1  # Increase counter to iterate to next debtor
+            creditCounter = creditCounter + 1  # Increase counter to iterate to next creditor
+        print("Updated creditors list", creditorsList)
+        print("Updated debtors list ", debtorsList)
+    return events
 
 
-def eventGenerator(payerName, amount, reciverName):
-    return str(payerName) + " will pay " + str(amount) + " to " + str(reciverName)
+def eventGenerator(creditorName, amount, debtorName):
+    return str(creditorName) + " will pay " + str(amount) + " to " + str(debtorName)
 
 
 """
@@ -161,11 +156,12 @@ def eventGenerator(payerName, amount, reciverName):
 }
 """
 
-totalMembers = 4
-
-# expense = {471: [50, 100, 1, 320], 890: [80, 320, 400, 90]}
-
-expense = {"petrol": {"bill": 471, "payments": {"a": 50, "b": 100, "c": 1, "d": 320}},
-           "room": {"bill": 890, "payments": {"a": 80, "b": 320, "c": 400, "d": 90}}}
-getPaymentExchangeInformation(totalMembers, expense)
-print(type(expense))
+if __name__ == "__main__":
+    totalMembers = 4
+    expense = {"petrol": {"bill": 470, "payments": {"a": 470, "b": 0, "c": 0, "d": 0}},
+               "room": {"bill": 890, "payments": {"a": 0, "b": 890, "c": 0, "d": 0}},
+               "rent": {"bill": 1200, "payments": {"a": 0, "b": 0, "c": 1200, "d": 000}}
+               }
+    events = getPaymentExchangeInformation(totalMembers, expense)
+    for event in events:
+        print(event)
