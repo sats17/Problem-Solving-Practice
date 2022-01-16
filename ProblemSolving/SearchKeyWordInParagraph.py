@@ -6,7 +6,11 @@ paragraph = "Hello my name is lucky lucky charm lucky"
 word = "lucky"
 
 """
+Algorithm: Advance naive search algorithm
 Time Complexity : O(len(paragraph)) 
+Need to fix
+paragraph = "aaaaaaabaaab"
+pattern = "aaaab" as this is not considering middle b, because we are shifting directly
 """
 
 
@@ -56,5 +60,61 @@ def search(pat, txt):
             print("Pattern found at index ", i)
 
 
+def computeLPSArray(pat, M, lps):
+    len = 0  # length of the previous longest prefix suffix
+
+    lps[0]  # lps[0] is always 0
+    i = 1
+
+    # the loop calculates lps[i] for i = 1 to M-1
+    while i < M:
+        if pat[i] == pat[len]:
+            len += 1
+            lps[i] = len
+            i += 1
+        else:
+            # This is tricky. Consider the example.
+            # AAACAAAA and i = 7. The idea is similar
+            # to search step.
+            if len != 0:
+                len = lps[len - 1]
+            else:
+                lps[i] = 0
+                i += 1
+
+"""
+Work in progress
+
+"""
+def computeLPSArrayMyOwnLogic(pattern):
+    patternLength = len(pattern)
+    lps = [0] * patternLength
+    print("Pattern length ", patternLength)
+    genesis = pattern[0]
+    currentMatchedIndex = -1
+    isChained = False
+    for i in range(1, patternLength):
+        print("Current index ",pattern[i])
+        if isChained:
+            print("Not chained")
+            # Validate currentMatchedIndex
+            if pattern[currentMatchedIndex + 1] == pattern[i]:
+                lps[i] = currentMatchedIndex + 1
+                currentMatchedIndex = currentMatchedIndex + 1
+                isChained = True
+
+        else:
+            if pattern[i] == genesis:
+                currentMatchedIndex = 0
+                isChained = True
+                lps[i] = 1
+    return lps
+
+paragraph = "aaaaaaabaaab"
+pattern = "aaaab"
+M = len(pattern)
+#lps = [0] * M
+print(computeLPSArrayMyOwnLogic(pattern))
+# print(lps)
 # search(word, paragraph)
-getMatchedIndicesByComparingChars(paragraph, word)
+# getMatchedIndicesByComparingChars(paragraph, pattern)
