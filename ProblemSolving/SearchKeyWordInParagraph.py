@@ -89,32 +89,44 @@ Work in progress
 def computeLPSArrayMyOwnLogic(pattern):
     patternLength = len(pattern)
     lps = [0] * patternLength
+    lps[0] = 0
     print("Pattern length ", patternLength)
     genesis = pattern[0]
-    currentMatchedIndex = -1
+    currentMatchedIndex = 0
     isChained = False
     for i in range(1, patternLength):
         print("Current index ",pattern[i])
         if isChained:
             print("Not chained")
             # Validate currentMatchedIndex
-            if pattern[currentMatchedIndex + 1] == pattern[i]:
+            if pattern[currentMatchedIndex] == pattern[i]:
                 lps[i] = currentMatchedIndex + 1
                 currentMatchedIndex = currentMatchedIndex + 1
                 isChained = True
-
-        else:
-            if pattern[i] == genesis:
+            elif genesis == pattern[i]:
+                lps[i] = 1
                 currentMatchedIndex = 0
                 isChained = True
-                lps[i] = 1
+            else:
+                lps[i] = 0
+                currentMatchedIndex = 0
+                isChained = False
+        else:
+            if pattern[currentMatchedIndex] == pattern[i]:
+                lps[i] = currentMatchedIndex + 1
+                isChained = True
+                currentMatchedIndex = currentMatchedIndex + 1
+            else:
+                lps[i] = 0
     return lps
 
 paragraph = "aaaaaaabaaab"
-pattern = "aaaab"
+pattern = "aaaabaaaaab" # Need to check on this pattern
 M = len(pattern)
-#lps = [0] * M
+lps2 = [0] * M
 print(computeLPSArrayMyOwnLogic(pattern))
+computeLPSArray(pattern, M, lps2)
+print(lps2)
 # print(lps)
 # search(word, paragraph)
 # getMatchedIndicesByComparingChars(paragraph, pattern)
