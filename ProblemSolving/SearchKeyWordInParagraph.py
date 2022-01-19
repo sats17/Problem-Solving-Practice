@@ -68,17 +68,26 @@ def computeLPSArray(pat, M, lps):
 
     # the loop calculates lps[i] for i = 1 to M-1
     while i < M:
+        print("I ",pat[i])
+        print("Len ",pat[len])
+        print("current I ", i)
+        print("current Len ", len)
+        print("LPS ", lps)
         if pat[i] == pat[len]:
+            print("Matched")
             len += 1
             lps[i] = len
             i += 1
         else:
+            print("not matchd")
             # This is tricky. Consider the example.
             # AAACAAAA and i = 7. The idea is similar
             # to search step.
             if len != 0:
+                print("Len was not zero")
                 len = lps[len - 1]
             else:
+                print("Len was zero")
                 lps[i] = 0
                 i += 1
 
@@ -123,10 +132,12 @@ def computeLPSArrayMyOwnLogic(pattern):
 paragraph = "aaaaaaabaaab"
 pattern = "aaaabaaaaab" # Need to check on this pattern
 M = len(pattern)
+print(pattern)
 lps2 = [0] * M
-print(computeLPSArrayMyOwnLogic(pattern))
+#print(computeLPSArrayMyOwnLogic(pattern))
 computeLPSArray(pattern, M, lps2)
 print(lps2)
 # print(lps)
 # search(word, paragraph)
 # getMatchedIndicesByComparingChars(paragraph, pattern)
+# https://towardsdatascience.com/pattern-search-with-the-knuth-morris-pratt-kmp-algorithm-8562407dba5b
