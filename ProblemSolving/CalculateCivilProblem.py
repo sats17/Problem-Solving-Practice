@@ -29,22 +29,25 @@ def unknownOperation(lfeet, linch, bfeet, binch, hfeet, hinch, nos):
 def processFile(csvData, output):
     outputArr = []
     csvData.fillna(-999, inplace=True)
+    csvData.columns.str.lower()
     for data in csvData.itertuples():
+        print(data)
         answer = unknownOperation(data.lfeet, data.linch, data.bfeet, data.binch, data.hfeet, data.hinch, data.nos)
         dict = {'name': data.name, 'lfeet': data.lfeet, 'linch': data.linch, 'bfeet': data.bfeet, 'binch': data.binch,
                 'hfeet': data.hfeet, 'hinch': data.hinch, 'nos': data.nos, 'answer': answer}
         outputArr.append(dict)
-    pd.DataFrame(outputArr).to_csv(output, index=False)
+    pd.DataFrame(outputArr).to_excel(output, index=False)
     print("Done")
 
 
 def readFile(input, output):
-    csvData = pd.read_csv(input)
+    #csvData = pd.read_csv(input)
+    csvData = pd.read_excel(input, sheet_name="Sheet1")
     print("File read complete")
     processFile(csvData, output)
     print("Processing done please see output.csv file")
 
 
-inputFileName = "input.csv"
-outputFileName = "output3.csv"
+inputFileName = "Book.xlsx"
+outputFileName = "output.xlsx"
 readFile(inputFileName, outputFileName)
