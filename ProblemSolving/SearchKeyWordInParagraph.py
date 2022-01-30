@@ -5,16 +5,16 @@ Program perform word search on paragraph and return index value of paragraph whe
 paragraph = "Hello my name is lucky lucky charm lucky"
 word = "lucky"
 
-"""
-Algorithm: Advance naive search algorithm
-Time Complexity : O(len(paragraph)) 
-Need to fix
-paragraph = "aaaaaaabaaab"
-pattern = "aaaab" as this is not considering middle b, because we are shifting directly
-"""
 
+def patternMatchingNaiveAlgoMyOwn(paragraph, word):
+    """
+    Algorithm: Advance naive search algorithm
+    Time Complexity : O(len(paragraph)) 
+    Need to fix
+    paragraph = "aaaaaaabaaab"
+    pattern = "aaaab" as this is not considering middle b, because we are shifting directly
+    """
 
-def getMatchedIndicesByComparingChars(paragraph, word):
     # Initialize index variable of paragraph and word
     paragraphIndex = 0
     wordIndex = 0
@@ -41,7 +41,7 @@ def getMatchedIndicesByComparingChars(paragraph, word):
     return matchedIndices
 
 
-def search(pat, txt):
+def patternMatchingNaiveAlgo(pat, txt):
     M = len(pat)
     N = len(txt)
 
@@ -67,7 +67,9 @@ def computeLPSArray(pat, M, lps):
     i = 1
     loopConter = 0
     # the loop calculates lps[i] for i = 1 to M-1
+    timeComplexityCounter = 0
     while i < M:
+        timeComplexityCounter = timeComplexityCounter + 1
         if pat[i] == pat[len]:
             len += 1
             lps[i] = len
@@ -85,11 +87,9 @@ def computeLPSArray(pat, M, lps):
                 i += 1
                 loopConter = loopConter + 1
     print("Loop counter ", loopConter)
+    print("Time Complexity ", timeComplexityCounter)
 
-"""
-Work in progress
 
-"""
 def computeLPSArrayMyOwnLogic(pattern):
     """
     This logic takes pattern and add value of each index of character in pattern, which added value
@@ -100,13 +100,11 @@ def computeLPSArrayMyOwnLogic(pattern):
     patternLength = len(pattern)
     lps = [0] * patternLength
     lps[0] = 0
-    print("Pattern length ", patternLength)
 
     genesis = pattern[0]
-    currentIndex = 0 # Current matching index of pattern
-    isChained = False # Flag to check if pattern is chained or not
+    currentIndex = 0  # Current matching index of pattern
+    isChained = False  # Flag to check if pattern is chained or not
 
-    loopCounter = 0
     for i in range(1, patternLength):
         if isChained:
             # Validate currentIndex with current character of loop
@@ -114,48 +112,108 @@ def computeLPSArrayMyOwnLogic(pattern):
                 lps[i] = currentIndex + 1
                 currentIndex = currentIndex + 1
                 isChained = True
-                loopCounter = loopCounter + 1
             # Validation for previous index of chain with current character of loop and previous index of of loop
-            # with previous to previous currentIndex. This condition is here to satiesfy the if chain 
+            # with previous to previous currentIndex. This condition is here to satiesfy the if chain
             # is having same characters or not
             elif pattern[i] == pattern[currentIndex - 1] and pattern[i - 1] == pattern[currentIndex - 2]:
                 lps[i] = currentIndex
                 isChained = True
-                loopCounter = loopCounter + 1
             # if above valiation failed, then we will validate with genesis block
             elif genesis == pattern[i]:
                 lps[i] = 1
                 currentIndex = 0
                 isChained = True
-                loopCounter = loopCounter + 1
             # If nothing is matched then we will break chain
             else:
                 lps[i] = 0
                 currentIndex = 0
                 isChained = False
-                loopCounter = loopCounter + 1
         else:
             if pattern[currentIndex] == pattern[i]:
                 lps[i] = currentIndex + 1
                 isChained = True
                 currentIndex = currentIndex + 1
-                loopCounter = loopCounter + 1
             else:
                 lps[i] = 0
-                loopCounter = loopCounter + 1
-    print("Loop counter from my ", loopCounter)
     return lps
 
-paragraph = "aaaaaaabaaab"
-pattern = "aaaaaaabaaab" # Need to check on this pattern
-M = len(pattern)
-print(pattern)
-lps2 = [0] * M
+def patternMatchingKMP(txt, pat):
+    """
+    Build own different logic for KMP algo by refereing psuedo code from geeksforgeeks.
+    Found out why there is elif condition in KMP algo.
+    """
+    patLen = len(pat)
+    txtLen = len(txt)
+    lps = computeLPSArrayMyOwnLogic(pat)
+    print("LPS is = ", lps)
+    patIndex = 0
+    txtIndex = 0
+    counter = 0
+    while txtIndex < txtLen:
+        print("txtIndex = ", txtIndex," txtValue = ", txt[txtIndex], " patIndex = ", patIndex, " patValue = ", pat[patIndex])
+        counter = counter + 1
+        if pat[patIndex] == txt[txtIndex]:
+                patIndex += 1
+                txtIndex += 1
+        if patIndex == patLen:
+                print("Pattern found at index ", txtIndex - patLen)
+                patIndex = lps[patIndex - 1]
+        else:
+            if patIndex < 1:
+                print("last if")
+                txtIndex += 1
+            else:
+                print("last else")
+                patIndex = lps[patIndex - 1]
+    print("Counter ", counter)
 
-print(computeLPSArrayMyOwnLogic(pattern))
-computeLPSArray(pattern, M, lps2)
-print(list(pattern))
-print(lps2)
+# Python program for KMP Algorithm
+def KMPSearch(pat, txt):
+    M = len(pat)
+    N = len(txt)
+    count = 0
+	# create lps[] that will hold the longest prefix suffix
+	# values for pattern
+    lps = [0]*M
+    j = 0 # index for pat[]
+
+	# Preprocess the pattern (calculate lps[] array)
+    lps = computeLPSArrayMyOwnLogic(pat)
+
+    i = 0 # index for txt[]
+    while i < N:
+        count = count + 1
+        if pat[j] == txt[i]:
+            i += 1
+            j += 1
+        if j == M:
+            print ("Found pattern at index " + str(i-j))
+            j = lps[j-1]
+
+		# mismatch after j matches
+        elif i < N and pat[j] != txt[i]:
+			# Do not match lps[0..lps[j-1]] characters,
+			# they will match anyway
+            if j != 0:
+                j = lps[j-1]    
+            else:
+                i += 1
+    print(count)
+
+
+txt = "baaabaaaaabaaa"
+pat = "aaab"
+KMPSearch(pat, txt)
+print("started my kmp")
+patternMatchingKMP(txt, pat)
+# M = len(pattern)
+# print(pattern)
+# lps2 = [0] * M
+
+# print(computeLPSArrayMyOwnLogic(pattern))
+# computeLPSArray(pattern, M, lps2)
+# print(list(pattern))
+# print(lps2)
 # print(lps)
 # search(word, paragraph)
 # getMatchedIndicesByComparingChars(paragraph, pattern)
