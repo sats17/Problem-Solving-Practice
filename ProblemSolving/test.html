@@ -1,0 +1,28 @@
+Dynamic number printing in javascript
+<html>
+<head>
+<title>Dynamic number printing in javascript</title>
+<script type="text/javascript">
+function printNumber(num)
+{
+    var div = document.getElementById("print");
+    div.innerHTML += num + " ";
+}
+function printNumbers()
+{
+    var num = document.getElementById("num").value;
+    for(var i = 1; i <= num; i++)
+    {
+        printNumber(i);
+    }
+}
+</script>
+</head>
+<body>
+<input type="text" id="num" />
+<input type="button" value="Print" onclick="printNumbers()" />
+<div id="print">
+    
+</div>
+</body>
+</html>

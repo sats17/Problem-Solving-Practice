@@ -13,6 +13,22 @@ YES
 NO
 
 """
+# Calculate simple interest
+def simpleInterest(p, t, r):   
+    return (p * t * r) / 100
+
+
+# Calculate is negative number or not
+def isNegative(n):
+    return n < 0
+
+def calculatePercentage(n):
+    return (n * 100) / 100
+
+def calculateHashString(n):
+    return hash(n)
+
+print(calculateHashString("Hello"))
 
 def angryProfessor(k, a):
     totalPresent = 0

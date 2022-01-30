@@ -65,77 +65,96 @@ def computeLPSArray(pat, M, lps):
 
     lps[0]  # lps[0] is always 0
     i = 1
-
+    loopConter = 0
     # the loop calculates lps[i] for i = 1 to M-1
     while i < M:
-        print("I ",pat[i])
-        print("Len ",pat[len])
-        print("current I ", i)
-        print("current Len ", len)
-        print("LPS ", lps)
         if pat[i] == pat[len]:
-            print("Matched")
             len += 1
             lps[i] = len
             i += 1
+            loopConter = loopConter + 1
         else:
-            print("not matchd")
             # This is tricky. Consider the example.
             # AAACAAAA and i = 7. The idea is similar
             # to search step.
             if len != 0:
-                print("Len was not zero")
                 len = lps[len - 1]
+                loopConter = loopConter + 1
             else:
-                print("Len was zero")
                 lps[i] = 0
                 i += 1
+                loopConter = loopConter + 1
+    print("Loop counter ", loopConter)
 
 """
 Work in progress
 
 """
 def computeLPSArrayMyOwnLogic(pattern):
+    """
+    This logic takes pattern and add value of each index of character in pattern, which added value
+    tells that that much length of prefix in pattern is matched with suffix of pattern till that index.
+    :param pattern:
+    :return:
+    """
     patternLength = len(pattern)
     lps = [0] * patternLength
     lps[0] = 0
     print("Pattern length ", patternLength)
+
     genesis = pattern[0]
-    currentMatchedIndex = 0
-    isChained = False
+    currentIndex = 0 # Current matching index of pattern
+    isChained = False # Flag to check if pattern is chained or not
+
+    loopCounter = 0
     for i in range(1, patternLength):
-        print("Current index ",pattern[i])
         if isChained:
-            print("Not chained")
-            # Validate currentMatchedIndex
-            if pattern[currentMatchedIndex] == pattern[i]:
-                lps[i] = currentMatchedIndex + 1
-                currentMatchedIndex = currentMatchedIndex + 1
+            # Validate currentIndex with current character of loop
+            if pattern[currentIndex] == pattern[i]:
+                lps[i] = currentIndex + 1
+                currentIndex = currentIndex + 1
                 isChained = True
+                loopCounter = loopCounter + 1
+            # Validation for previous index of chain with current character of loop and previous index of of loop
+            # with previous to previous currentIndex. This condition is here to satiesfy the if chain 
+            # is having same characters or not
+            elif pattern[i] == pattern[currentIndex - 1] and pattern[i - 1] == pattern[currentIndex - 2]:
+                lps[i] = currentIndex
+                isChained = True
+                loopCounter = loopCounter + 1
+            # if above valiation failed, then we will validate with genesis block
             elif genesis == pattern[i]:
                 lps[i] = 1
-                currentMatchedIndex = 0
+                currentIndex = 0
                 isChained = True
+                loopCounter = loopCounter + 1
+            # If nothing is matched then we will break chain
             else:
                 lps[i] = 0
-                currentMatchedIndex = 0
+                currentIndex = 0
                 isChained = False
+                loopCounter = loopCounter + 1
         else:
-            if pattern[currentMatchedIndex] == pattern[i]:
-                lps[i] = currentMatchedIndex + 1
+            if pattern[currentIndex] == pattern[i]:
+                lps[i] = currentIndex + 1
                 isChained = True
-                currentMatchedIndex = currentMatchedIndex + 1
+                currentIndex = currentIndex + 1
+                loopCounter = loopCounter + 1
             else:
                 lps[i] = 0
+                loopCounter = loopCounter + 1
+    print("Loop counter from my ", loopCounter)
     return lps
 
 paragraph = "aaaaaaabaaab"
-pattern = "aaaabaaaaab" # Need to check on this pattern
+pattern = "aaaaaaabaaab" # Need to check on this pattern
 M = len(pattern)
 print(pattern)
 lps2 = [0] * M
-#print(computeLPSArrayMyOwnLogic(pattern))
+
+print(computeLPSArrayMyOwnLogic(pattern))
 computeLPSArray(pattern, M, lps2)
+print(list(pattern))
 print(lps2)
 # print(lps)
 # search(word, paragraph)
