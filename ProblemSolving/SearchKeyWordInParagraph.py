@@ -139,8 +139,22 @@ def computeLPSArrayMyOwnLogic(pattern):
 
 def patternMatchingKMP(txt, pat):
     """
+    Logic - KMP logic uses lps array to find the pattern in text. LPS array return index of longest prefix suffix
+    which is matched with suffix of pattern. 
+    1) So, basically when pattern is matched then we move next index of text and next index of pattern
+    will be lps[j - 1] value. And if it is not matching then we shift pattern index by lps[j - 1] value.(In my words
+    we are basically shifting pattern to right to compare)
+    2) When there is pattern len is zero, then we move only text to right by one index
+    Example : consider below example - 
+    txt = "aabaabaaabaaa"
+    pat = "aabaab"
+    So, when pattern match first, then j index value is lps[6 - 1], lps[5] = 3. If you look closely there is
+    we are having aab in common, hence if pattern was matched then using lps we will skip first 3 characters. because 
+    we knows those characters are matched(Kind of lps magic).
+
     Build own different logic for KMP algo by refereing psuedo code from geeksforgeeks.
     Found out why there is elif condition in KMP algo.
+    Example
     """
     patLen = len(pat)
     txtLen = len(txt)
@@ -201,8 +215,9 @@ def KMPSearch(pat, txt):
     print(count)
 
 
-txt = "baaabaaaaabaaa"
-pat = "aaab"
+txt = "aabaabaaabaaa"
+pat = "aabaab"
+
 KMPSearch(pat, txt)
 print("started my kmp")
 patternMatchingKMP(txt, pat)
