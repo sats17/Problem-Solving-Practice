@@ -5,6 +5,7 @@ Program perform word search on paragraph and return index value of paragraph whe
 paragraph = "Hello my name is lucky lucky charm lucky"
 word = "lucky"
 
+########## Navie Algorithm ##########
 
 def patternMatchingNaiveAlgoMyOwn(paragraph, word):
     """
@@ -59,6 +60,8 @@ def patternMatchingNaiveAlgo(pat, txt):
         if j == M:
             print("Pattern found at index ", i)
 
+
+########## KMP Algorithm ##########
 
 def computeLPSArray(pat, M, lps):
     len = 0  # length of the previous longest prefix suffix
@@ -214,22 +217,25 @@ def KMPSearch(pat, txt):
                 i += 1
     print(count)
 
+######## Robin Karp Algorithm ########
 
-txt = "aabaabaaabaaa"
-pat = "aabaab"
 
-KMPSearch(pat, txt)
-print("started my kmp")
-patternMatchingKMP(txt, pat)
-# M = len(pattern)
-# print(pattern)
-# lps2 = [0] * M
+if __name__ == "__main__":
+    txt = "aabaabaaabaaa"
+    pat = "aabaab"
 
-# print(computeLPSArrayMyOwnLogic(pattern))
-# computeLPSArray(pattern, M, lps2)
-# print(list(pattern))
-# print(lps2)
-# print(lps)
-# search(word, paragraph)
-# getMatchedIndicesByComparingChars(paragraph, pattern)
-# https://towardsdatascience.com/pattern-search-with-the-knuth-morris-pratt-kmp-algorithm-8562407dba5b
+    KMPSearch(pat, txt)
+    print("started my kmp")
+    patternMatchingKMP(txt, pat)
+    # M = len(pattern)
+    # print(pattern)
+    # lps2 = [0] * M
+
+    # print(computeLPSArrayMyOwnLogic(pattern))
+    # computeLPSArray(pattern, M, lps2)
+    # print(list(pattern))
+    # print(lps2)
+    # print(lps)
+    # search(word, paragraph)
+    # getMatchedIndicesByComparingChars(paragraph, pattern)
+    # https://towardsdatascience.com/pattern-search-with-the-knuth-morris-pratt-kmp-algorithm-8562407dba5b
