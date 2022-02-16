@@ -126,7 +126,7 @@ def dynamicLoop(arr, length):
         dynamicLoop(arr, length - 1)
 
 
-#print(combination(['a', 'c', 'b'], 3))
+print(combination(['a', 'b', 'c','d'], 3))
 
 #print("Total combination we can get ", renameFileUsingOurOwnCombinationLogic("abc", "aaabbbccc"))
 
