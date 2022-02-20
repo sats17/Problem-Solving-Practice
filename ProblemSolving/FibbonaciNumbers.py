@@ -1,4 +1,9 @@
-def findFibbonaci(cache, n):
+def findFibbonaciUsingMemoization(cache, n):
+    """
+    Memoization is a technique to speed up the recursive calls. Using this cache we are 
+    storing results for each fibbonaci number. And passing the cache as an argument to the function.
+    So we can avoid the recursive calls.
+    """
     if cache.get(n) is not None:
         print("Returning data from cache for ",n)
         return cache[n]
@@ -18,7 +23,7 @@ def findFibbonaci(cache, n):
         cache[n] = answerFibb
         return answerFibb
 
-def Fibonacci(n):
+def findFibonacciRecursion(n):
     if n < 0:
         print("Incorrect input")
     elif n == 0:
@@ -31,5 +36,5 @@ def Fibonacci(n):
         print("Returning data from actual call ",n)
         return Fibonacci(n-1) + Fibonacci(n-2)
 
-# print(findFibbonaci({}, 15))
-print(Fibonacci(15))
+# print(findFibbonaciUsingMemoization({}, 15))
+print(findFibonacciRecursion(15))
