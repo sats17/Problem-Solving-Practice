@@ -10,15 +10,10 @@ pairs has the following parameter(s):
     arr: an array of integers
 
 Sample Input
-
 2
 1 5 3 4 2
-
 Sample Output
-
 3
-
-
 """
 
 def pairs(k, arr):
@@ -59,7 +54,9 @@ def memoizedPairsDiff(k, arr):
     In memoization logic, we are just putting the array values into hashset(o(1) Complexity))),
     by doing this we are just doing sum of current iteration and k, if this value present in hashset. 
     Then it contains the pair.
-    Unfortunately we required reverse sort if we want to find the pair of diff k.
+    Unfortunately we required reverse sort if we want to find the pair of diff k. We do reverse sorting here
+    because there won't be any number greater than first number in reverse sorted array.
+    # To sum up, we are doing O(n) complexity. And we required reverse sorted array plus hashset to find the pairs.
     arr = [9, 5, 3, 4, 2, 11]
     """
     print("Incoming array ",arr)
@@ -81,29 +78,32 @@ def memoizedPairsDiff(k, arr):
     print("Memoized array is ",memoizedArr)
     return count
 
+def memoizedFindPairAdvanced(k, arr):
+    """
+    This version we tried to make it advanced. In this version we are converting the array into hashset.
+    Then we are finding if the sum present in hashset or not.
+    """
+    print("Array ",arr)
+    hashSet = set()
+    count = 0
+    for i in arr:
+        hashSet.add(i)
+    print("Hashset is ",hashSet)
+    for i in arr:
+        sum = i + k
+        if(sum in hashSet):
+            print("Found a pair ",i,"+",k,"=",sum)
+            count +=1
+    return count
+
 if __name__ == "__main__":
     arr = [9, 5, 3, 4, 2, 7, 11]
-    result = pairsAdvance(2,arr)
-    # print("Result is ",pairs(2,arr))
-    print("pair advance result ",result)
-    print(memoizedPairsDiff(2,arr))
+    # result = pairsAdvance(2,arr)
+    # # print("Result is ",pairs(2,arr))
+    # print("pair advance result ",result)
+    # print(memoizedPairsDiff(2,arr))
+    print(memoizedFindPairAdvanced(2,arr))
     # driver code
     # A = [9, 5, 3, 4, 2, 11]
     # n = 2
     # printPairs(A, len(A), n)
-"""
-    var
-    i = 0, j = 1, count = 0;
-
-    while (j < n) {
-    var diff = nums[j] - nums[i];
-
-    if (diff == k) {
-    count++;
-    j++;
-    } else if (diff > k) {
-    i++;
-    } else if (diff < k) {
-    j++;
-    }
-    }"""
