@@ -78,10 +78,12 @@ def memoizedPairsDiff(k, arr):
     print("Memoized array is ",memoizedArr)
     return count
 
-def memoizedFindPairAdvanced(k, arr):
+def memoizedFindPairDiffAdvanced(k, arr):
     """
     This version we tried to make it advanced. In this version we are converting the array into hashset.
     Then we are finding if the sum present in hashset or not.
+    n = arr.length
+    Time complexity is O(n + n) = O(n)
     """
     print("Array ",arr)
     hashSet = set()
