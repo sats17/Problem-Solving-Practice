@@ -20,15 +20,37 @@ class BinarySearchTree:
         self.tree = None
         return None
 
-    def printBasicTree(self):
-        return self._getBasicTree(self.tree, result = [])
+    def printPreOrderTree(self):
+        """
+        This is a recursive method, which prints the tree in pre-order.
+        Root, left, right.
+        """
+        print(type(self.tree))
+        return self._getPreOrder(self.tree, result = [])
 
-    def _getBasicTree(self, nodes, result):
+    def _getPreOrder(self, nodes, result):
         if nodes == None:
             return None
         result.append(nodes.toString()) # Using object reference to store the value of the node.
-        self._getBasicTree(nodes.left, result)
-        self._getBasicTree(nodes.right, result)
+        self._getPreOrder(nodes.left, result)
+        self._getPreOrder(nodes.right, result)
+        return result
+
+    def printInOrderTree(self):
+        """
+        This is a recursive method, which prints the tree in pre-order.
+        Root, left, right.
+        """
+        print(type(self.tree))
+        return self._getInOrder(self.tree, result = [])
+
+    def _getInOrder(self, nodes, result):
+        if nodes == None:
+            return None
+        self._getInOrder(nodes.left, result)
+        print("Node ",nodes.toString())
+        result.append(nodes.toString()) # Using object reference to store the value of the node.
+        self._getInOrder(nodes.right, result)
         return result
 
     def insert(self, value):
@@ -65,4 +87,8 @@ if __name__ == "__main__":
     tree.insert(2)
     tree.insert(4)
     tree.insert(1)
-    print(tree.printBasicTree())
+    tree.insert(9)
+    tree.insert(14)
+    tree.insert(13)
+    print(tree.printPreOrderTree())
+    print(tree.printInOrderTree()) # Need to revalidate this inorder
