@@ -136,4 +136,5 @@ if __name__ == "__main__":
     print("Pre order = ",tree.printPreOrderTree())
     print("In order = ",tree.printInOrderTree())
     print("Post order = ",tree.printPostOrderTree())
+    # [5, 2,6, 1, 4, 9, 7, 14]
     # Next action is to reverse the binary tree and level order traversal.s
