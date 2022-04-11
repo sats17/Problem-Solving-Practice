@@ -65,6 +65,23 @@ def generateRegularBoard(rowDiv: int, colDiv: int) -> list:
         regularBoard.append(innerBoard)
     return regularBoard
 
+def sudokuSolver(regularBoard: list, rowDiv: int, colDiv: int) -> list:
+    nonetBoard = convertRegularBoardToNonetBoard(regularBoard, rowDiv, colDiv)
+    print("Nonet board ",nonetBoard)
+    print("Regular board ")
+    for i in regularBoard:
+        print(i)
+    for regularBoardRow in regularBoard:
+        print(regularBoardRow)
+        currentValue = None
+        for regularBoardColumnIndex in range(0, len(regularBoardRow)):
+            regularBoardColumn = regularBoardRow[regularBoardColumnIndex]
+            if regularBoardColumn.getValue() != 0:
+                print("Value is ", regularBoardColumn.getValue())
+                print("Skipping this value")
+                continue
+            
+
 if __name__ == "__main__":
     regularBoard = generateRegularBoard(9, 9)
     regularBoard[0][2].setValue(5)
@@ -74,9 +91,5 @@ if __name__ == "__main__":
     regularBoard[2][0].setValue(1)
     regularBoard[2][0].setValue(1)
     regularBoard[8][8].setValue(9)
-    
-    nonetBoard = convertRegularBoardToNonetBoard(regularBoard, 3, 3)
-    for i in regularBoard:
-        print(i)
-    print(nonetBoard)
+    sudokuSolver(regularBoard, 9, 9)
 
