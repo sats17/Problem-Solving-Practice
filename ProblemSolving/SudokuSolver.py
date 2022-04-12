@@ -1,27 +1,45 @@
 class BoardValue:
     def __init__(self, value, nonetBoardIndex, nonetArrayIndex) -> None:
-        self.value = value
-        self.nonetBoardIndex = nonetBoardIndex
-        self.nonetArrayIndex = nonetArrayIndex
+        self.__value = value
+        self.__nonetBoardIndex = nonetBoardIndex
+        self.__nonetArrayIndex = nonetArrayIndex
+        self.__tempValue = None
+        self.__isPreset = False
         
     def getValue(self):
-        return self.value
+        return self.__value
     
     def setValue(self, value):
-        self.value = value
+        self.__value = value
     
     def getNonetBoardIndex(self):
-        return self.nonetBoardIndex
+        return self.__nonetBoardIndex
+    
+    def setNonetBoardIndex(self, nonetBoardIndex):
+        self.__nonetBoardIndex = nonetBoardIndex
     
     def getNonetArrayIndex(self):
-        return self.nonetArrayIndex
+        return self.__nonetArrayIndex
+    
+    def setNonetArrayIndex(self, nonetArrayIndex):
+        self.__nonetArrayIndex = nonetArrayIndex
+    
+    def getTempValue(self):
+        return self.__tempValue
+    
+    def setTempValue(self, value):
+        self.__tempValue = value
+        
+    def getIsPreset(self):
+        return self.__isPreset
+    
+    def setIsPreset(self, isPreset):
+        self.__isPreset = isPreset
     
     def __repr__(self) -> str:
-        return str(self.value) + " " + str(self.nonetBoardIndex) + " " + str(self.nonetArrayIndex)
-    
+        return str(self.__value) + " " + str(self.__nonetBoardIndex) + " " + str(self.__nonetArrayIndex) + " " + str(self.__isPreset) 
     
 def convertRegularBoardToNonetBoard(regularBoard: list, rowDiv: int, colDiv: int) -> list:
-    colCounter = 1
     currentNonetBoardIndex = 1
     nonetBoard = {}
     # Step 1: Increment row using for loop
@@ -30,17 +48,20 @@ def convertRegularBoardToNonetBoard(regularBoard: list, rowDiv: int, colDiv: int
         # Step 2: Increment col using for loop
         for j in range(1, len(regularBoard[originalRowIndex]) + 1):
             originalColIndex = j - 1
-            
+            currentObj = regularBoard[originalRowIndex][originalColIndex]
             # Step 3: Update nonetBoard and regularBoard if nonet board created
             if currentNonetBoardIndex in nonetBoard.keys():
-                nonetBoard[currentNonetBoardIndex].append(regularBoard[originalRowIndex][originalColIndex].getValue())
-                regularBoard[originalRowIndex][originalColIndex].nonetBoardIndex = currentNonetBoardIndex
-                regularBoard[originalRowIndex][originalColIndex].nonetArrayIndex = len(nonetBoard[currentNonetBoardIndex]) - 1
+                nonetBoard[currentNonetBoardIndex].append(currentObj.getValue())
+                currentObj.setNonetBoardIndex(currentNonetBoardIndex)
+                currentObj.setNonetArrayIndex(len(nonetBoard[currentNonetBoardIndex]) - 1)
+                if currentObj.getValue() != 0:
+                    currentObj.setIsPreset(True)
+                    
             # Step 4: Create new nonet board if nonet board not created and update regularBoard
             else:
-                nonetBoard[currentNonetBoardIndex] = [regularBoard[originalRowIndex][originalColIndex].getValue()]
-                regularBoard[originalRowIndex][originalColIndex].nonetBoardIndex = currentNonetBoardIndex
-                regularBoard[originalRowIndex][originalColIndex].nonetArrayIndex = 0
+                nonetBoard[currentNonetBoardIndex] = [currentObj.getValue()]
+                currentObj.setNonetBoardIndex(currentNonetBoardIndex)
+                currentObj.setNonetArrayIndex(len(nonetBoard[currentNonetBoardIndex]) - 1)
             
             # Step 5: Validation of col, which later decide NontetBoardIndex
             if j % colDiv == 0 and j != 9:
@@ -71,25 +92,85 @@ def sudokuSolver(regularBoard: list, rowDiv: int, colDiv: int) -> list:
     print("Regular board ")
     for i in regularBoard:
         print(i)
-    for regularBoardRow in regularBoard:
-        print(regularBoardRow)
+    for regularBoardRowIndex in range(0, len(regularBoard)):
+        regularBoardRow = regularBoard[regularBoardRowIndex]
         currentValue = None
+        isBackwardFlowStarted = False
+        swappedTempValue = None
+        unfittedIndex = None
         for regularBoardColumnIndex in range(0, len(regularBoardRow)):
             regularBoardColumn = regularBoardRow[regularBoardColumnIndex]
+            value = regularBoardColumn.getValue()
+            
+            if isBackwardFlowStarted == False:
+                if value != 0:
+                    # Skipping value which already present in board
+                    continue
+                else:
+                    if validateAndAppendValue(regularBoard, nonetBoard, value, regularBoardRowIndex, regularBoardColumnIndex):
+                        break
+                    else:
+                        print('test')
             if regularBoardColumn.getValue() != 0:
                 print("Value is ", regularBoardColumn.getValue())
                 print("Skipping this value")
                 continue
             
+def validateAndAppendValue(regularBoard, nonetBoard, value, rowIndex, colIndex):
+    isValid = False
+    currentBoardValue = regularBoard[rowIndex][colIndex]
+    if value is not None:
+        # Validate row
+        for boardValue in regularBoard[rowIndex]:
+            if boardValue.getValue() == value:
+                return False
+        isValid = True
+        
+        # Validate column
+        for row in regularBoard:
+            if row[colIndex].getValue() == value:
+                return False
+        isValid = True
+        
+        # Validate nonet
+        boardIndex = currentBoardValue.getNonetBoardIndex()
+        arrayIndex = currentBoardValue.getNonetArrayIndex()
+        if boardIndex in nonetBoard.keys():
+            for boardValue in nonetBoard[boardIndex]:
+                if boardValue == value:
+                    return False
+        isValid = True
+        regularBoard[rowIndex][colIndex].setValue(value)
+        nonetBoard[boardIndex][arrayIndex] = value
+        return isValid
+    else:
+        # Need to check in single iteration of 1 to 9, how can I validate all three.
+        return None
 
 if __name__ == "__main__":
     regularBoard = generateRegularBoard(9, 9)
     regularBoard[0][2].setValue(5)
+    regularBoard[2][2].setValue(7)
     regularBoard[0][5].setValue(9)
     regularBoard[0][8].setValue(1)
     regularBoard[1][0].setValue(6)
     regularBoard[2][0].setValue(1)
     regularBoard[2][0].setValue(1)
     regularBoard[8][8].setValue(9)
-    sudokuSolver(regularBoard, 9, 9)
+    nonetBoard = convertRegularBoardToNonetBoard(regularBoard, 3, 3)
+    print(nonetBoard)
+    print("############################################")
+    for i in regularBoard:
+        print(i)
+    print("after")
+    print(validateAndAppendValue(regularBoard, nonetBoard, 7, 0, 0))
+    print(nonetBoard)
+    print("############################################")
+    for i in regularBoard:
+        print(i)
+    # print(validateAndAppendValue(regularBoard, nonetBoard, 6, 0, 0))
+    # sudokuSolver(regularBoard, 9, 9)
+    
+    # Next action
+    # for validateAndAppendValue method need to complete else part, and also need to check if we can reuse existing logic also which written
 
