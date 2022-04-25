@@ -104,6 +104,7 @@ def generateResolvedContributionEvents(differentiatedResponse):
     debtCounter = 0
     creditorsList = []
     debtorsList = []
+    
     for creditor in creditor.items():
         creditorsList.append(list(creditor))
     for debtor in debtor.items():

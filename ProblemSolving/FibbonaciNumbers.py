@@ -17,8 +17,8 @@ def findFibbonaciUsingMemoization(cache, n):
         return 1
     else:
         print("Returning data from actual call ",n)
-        firstFibb = findFibbonaci(cache, n-1)
-        secondFibb = findFibbonaci(cache, n-2)
+        firstFibb = findFibbonaciUsingMemoization(cache, n-1)
+        secondFibb = findFibbonaciUsingMemoization(cache, n-2)
         answerFibb = firstFibb + secondFibb
         cache[n] = answerFibb
         return answerFibb
@@ -34,7 +34,7 @@ def findFibonacciRecursion(n):
         return 1
     else:
         print("Returning data from actual call ",n)
-        return Fibonacci(n-1) + Fibonacci(n-2)
+        return findFibonacciRecursion(n-1) + findFibonacciRecursion(n-2)
 
 # print(findFibbonaciUsingMemoization({}, 15))
-print(findFibonacciRecursion(15))
+print(findFibonacciRecursion(4))

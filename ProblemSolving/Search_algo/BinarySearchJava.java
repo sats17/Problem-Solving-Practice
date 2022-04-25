@@ -5,11 +5,12 @@ public class BinarySearchJava {
     public static int search(int[] array, int midIndex, int value) {
 
         int midValue = array[midIndex];
-        if(midValue == value) {
+
+        if (midValue == value) {
             return midIndex;
         } else if (array.length == 1) {
             return -1;
-        } else if(midValue > value) {
+        } else if (midValue > value) {
             int[] newArray = Arrays.copyOfRange(array, 0, midIndex);
             int newMidIndex = newArray.length / 2;
             return search(newArray, newMidIndex, value);
@@ -18,6 +19,7 @@ public class BinarySearchJava {
             int newMidIndex = newArray.length / 2;
             return search(newArray, newMidIndex, value);
         }
+    
     }
 
     public static int[] insertAtIndex(int[] array, int index, int value) {
