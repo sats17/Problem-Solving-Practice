@@ -262,8 +262,8 @@ if __name__ == "__main__":
             
     printDashBoard()
     regularBoard = generateRegularBoard(9, 9)
-    # getUserInput(regularBoard)
-    testData(regularBoard)
+    getUserInput(regularBoard)
+    #testData(regularBoard)
     for i in regularBoard:
         print(i)
     sudokuSolver(regularBoard, 9, 9)
@@ -272,6 +272,8 @@ if __name__ == "__main__":
     print('=' * 100)
     print(" " * 35 + "Sudoku Board")
     print(regularBoard)
+    for i in regularBoard:
+        print(i)
     
     # testData(regularBoard)
     # nonetBoard = convertRegularBoardToNonetBoard(regularBoard, 3, 3)
