@@ -3,7 +3,7 @@ import java.util.HashSet;
 
 public class GetDuplicates {
    
-    public static HashSet<Integer> get(int[] array) {
+    public static HashSet<Integer> getUsingHashMap(int[] array) {
         HashMap<Integer, Integer> indexedArr = new HashMap<>(array.length);
         HashSet<Integer> output = new HashSet<>(array.length);
         for(int i = 0; i < array.length; i++) {
@@ -21,28 +21,24 @@ public class GetDuplicates {
         });
         return output;
     }
-
-    public static void print(int[] numRay) {
-        for (int i = 0; i < numRay.length; i++) {
-            numRay[numRay[i] % numRay.length]
-                = numRay[numRay[i] % numRay.length]
-                  + numRay.length;
+    public static HashSet<Integer> getUsingHashSet(int[] array) {
+        HashSet<Integer> set = new HashSet<>(array.length);
+        HashSet<Integer> output = new HashSet<>(array.length);
+        for(int i = 0; i < array.length; i++) {
+            output.add(array[i]);
         }
-        System.out.println("The repeating elements are : ");
-        for (int i = 0; i < numRay.length; i++) {
-            if (numRay[i] >= numRay.length * 2) {
-                System.out.println(i + " ");
-            }
-        }
+        return output;
     }
 
     public static void main(String[] args) {
-        int[] array = new int[]{1, 2, 3, 5, 6, 5, 2, 1, 24, 51, 12};
-        // HashSet<Integer> output = get(array);
-        print(array);
-        // output.forEach(answer -> {
-        //     System.out.println(answer);
-        // });
+        int[] array = new int[]{1, 2, 3, 4, 5, 6, 1, 2, 4, 5, 11, 102};
+        int[] ar = new int[10];
+        System.out.println(ar.length);
+        HashSet<Integer> output = getUsingHashSet(array);
+        System.out.println(output.contains(1));
+        output.forEach(answer -> {
+            System.out.println(answer);
+        });
     }
 
 }

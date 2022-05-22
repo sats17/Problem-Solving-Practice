@@ -15,6 +15,7 @@ output - 0 (because only consecutive character deletion allowed)
 
 """
 from itertools import combinations
+from itertools import permutations
 
 
 def renameFile(newName, oldName):
@@ -77,14 +78,27 @@ def renameFileUsingItertoolsCombination(newName, oldName):
 def combination(charArray, combinationLength, combinationValue=(), combinationList=[], offset=0):
     """
     Method generate all combinations of elements from given array, it uses recursion inside iteration of array elements.
-    So for every i th element we are calling recursive method which has decreasing length and combination appended value.
-    At last when size reduced to 0 we are returning appended combination value. and next iteration will run as it is.
+    
+    So for every i th element we are calling recursive method which has parameter of decreasing length of combination and storing that i th element as a 
+    combination appended result value.
+    At last when size reduced to 0 we are returning appended combination value. Then we are doing return statement, which routes to
+    last most recursive method and iteration present in that recursive method will either go to next element or return. This will be 
+    there for each recursive call.
 
     This method does not pick duplicate elements like for a,b,c,d,e data with length 3 it will not consider a,a,a hence
     we used offset which tells loop to start with next element from previous loop.
 
     Also we need to return collected combination so we are using list and tuple here. as we cannot pass list in recursion
     method because pass by reference update issue, we are passing tuple here so it can have it's individual values.
+    Example: a, b, c, d, e, f : combinationLength = 3
+    1st iteration: a, b, c
+    2nd iteration: a, b, d
+    3rd iteration: a, b, e
+    4th iteration: a, b, f
+    5th iteration: a, c, d
+    6th iteration: a, c, e
+    7th iteration: a, c, f
+    Goes on....
 
     Note : for python we don't require popping after recursive method
     :param charArray: characters array from that we want combination
@@ -126,7 +140,9 @@ def dynamicLoop(arr, length):
         dynamicLoop(arr, length - 1)
 
 
-print(combination(['a', 'b', 'c','d'], 3))
+ab = combination(['a', 'b', 'c'], 0)
+for i in ab:
+    print(i)
 
 #print("Total combination we can get ", renameFileUsingOurOwnCombinationLogic("abc", "aaabbbccc"))
 
