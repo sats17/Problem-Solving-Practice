@@ -57,7 +57,7 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
-    def insert(self, value):
+    def insert_v2(self, value):
         head = self.head
         if head is None:
             self.head = Node(value, None)
@@ -82,12 +82,29 @@ class LinkedList:
                     self.head = new_node
                     head = None
 
+    def insert(self, value):
+        if self.head is None:
+            self.head = Node(value, None)
+        elif self.head.value == value:
+            print("Do nothing")
+        elif self.head.value > value:
+            new_node = Node(value, self.head)
+            self.head = new_node
+        else:
+            current_head = self.head
+            while current_head.next_node is not None and current_head.next_node.value < value:
+                current_head = current_head.next_node
+            if current_head.next_node is not None and current_head.next_node.value == value:
+                print("Ignoring value")
+            elif current_head.value != value:
+                new_node = Node(value, current_head.next_node)
+                current_head.next_node = new_node
+
     def fetch(self, value):
         pass
 
     def delete(self, value):
         pass
-
 
     def print_list(self):
         head = self.head
@@ -108,4 +125,5 @@ if __name__ == '__main__':
     list.insert(1)
     list.insert(2)
     list.insert(2)
+    print("################################")
     list.print_list()
