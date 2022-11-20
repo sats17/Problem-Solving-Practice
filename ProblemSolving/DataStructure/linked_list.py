@@ -74,6 +74,9 @@ class LinkedList:
                         head = None
                     else:
                         head = head.next_node
+                elif head.value == value:
+                    print("Value already exists")
+                    head = None
                 else:
                     new_node = Node(value, head)
                     self.head = new_node
@@ -82,6 +85,8 @@ class LinkedList:
     def fetch(self, value):
         pass
 
+    def delete(self, value):
+        pass
 
 
     def print_list(self):
@@ -101,5 +106,6 @@ if __name__ == '__main__':
     list.insert(11)
     list.insert(8)
     list.insert(1)
-    list.insert(9)
+    list.insert(2)
+    list.insert(2)
     list.print_list()
