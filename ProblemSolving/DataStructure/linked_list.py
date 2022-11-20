@@ -79,6 +79,8 @@ class LinkedList:
                     self.head = new_node
                     head = None
 
+    def fetch(self, value):
+        pass
 
 
 
