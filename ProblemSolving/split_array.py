@@ -14,10 +14,19 @@ def split(array, size):
         temp_divider += divider
     return resp_list
 
+def print_progress(arr, val):
+    print(arr)
+    for i in range(0, 40, 3):
+        print(i)
+
 if __name__ == '__main__':
     # arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q']
-    arr = list(range(1, 120))
+    arr = list(range(1, 40))
     print("generated array ", arr)
-    resp = split(arr, 45)
-    for i in resp:
-        print(i)
+    print_progress(arr, 10)
+    # resp = split(arr, 45)
+    # resp = np.array_split(arr, 7)
+    # for i in resp:
+    #     print(i)
+    #     print(type(i))
+    #     print(type(i.tolist()))
