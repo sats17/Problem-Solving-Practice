@@ -52,6 +52,9 @@ class Node:
         self.value = value
         self.next_node = next_node
 
+    def __str__(self):
+        return str(self.value)+" "+ str(self.next_node)
+
 
 class LinkedList:
     def __init__(self):
@@ -92,11 +95,9 @@ class LinkedList:
             self.head = new_node
         else:
             current_head = self.head
-            while current_head.next_node is not None and current_head.next_node.value < value:
+            while current_head.next_node is not None and current_head.next_node.value <= value:
                 current_head = current_head.next_node
-            if current_head.next_node is not None and current_head.next_node.value == value:
-                print("Ignoring value")
-            elif current_head.value != value:
+            if current_head.value != value:
                 new_node = Node(value, current_head.next_node)
                 current_head.next_node = new_node
 
@@ -117,13 +118,16 @@ class LinkedList:
 
 if __name__ == '__main__':
     print("Started")
-    list = LinkedList()
-    list.insert(5)
-    list.insert(10)
-    list.insert(11)
-    list.insert(8)
-    list.insert(1)
-    list.insert(2)
-    list.insert(2)
-    print("################################")
-    list.print_list()
+    print(10 < 10)
+    # list = LinkedList()
+    # list.insert(5)
+    # list.insert(10)
+    # list.insert(11)
+    # list.insert(8)
+    # list.insert(1)
+    # list.insert(2)
+    # list.insert(2)
+    # list.insert(11)
+    # list.insert(10)
+    # print("################################")
+    # list.print_list()
