@@ -56,7 +56,7 @@ class Node:
         return str(self.value) + " " + str(self.next_node)
 
 
-class LinkedList:
+class SortedLinkedList:
     def __init__(self):
         self.head = None
 
@@ -126,9 +126,6 @@ class LinkedList:
             head = head.next_node
         return False
 
-    def fetch(self, value):
-        pass
-
     def delete(self, value):
         if self.head is None:
             return
@@ -159,7 +156,7 @@ class LinkedList:
 if __name__ == '__main__':
     print("Started")
     print(10 < 10)
-    list = LinkedList()
+    list = SortedLinkedList()
     list.insert(5)
     list.insert(10)
     list.insert(11)
