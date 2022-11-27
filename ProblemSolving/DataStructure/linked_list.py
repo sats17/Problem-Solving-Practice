@@ -53,7 +53,7 @@ class Node:
         self.next_node = next_node
 
     def __str__(self):
-        return str(self.value)+" "+ str(self.next_node)
+        return str(self.value) + " " + str(self.next_node)
 
 
 class LinkedList:
@@ -97,20 +97,55 @@ class LinkedList:
             current_head = self.head
             while current_head.next_node is not None and current_head.next_node.value < value:
                 current_head = current_head.next_node
-            # if current_head.value != value:
-            #     new_node = Node(value, current_head.next_node)
-            #     current_head.next_node = new_node
             if current_head.next_node is not None and current_head.next_node.value == value:
                 return
             new_node = Node(value, current_head.next_node)
             current_head.next_node = new_node
+            # Commenting another logic, which is ignored due to extra loop iteration
+            # while current_head.next_node is not None and current_head.next_node.value <= value:
+            #     current_head = current_head.next_node
+            # if current_head.value != value:
+            #     new_node = Node(value, current_head.next_node)
+            #     current_head.next_node = new_node
 
+    def search(self, value):
+        # head = self.head
+        # while head is not None and head.value != value:
+        #     head = head.next_node
+        # if head is not None:
+        #     return True
+        # return False
+
+        head = self.head
+        while head is not None:
+            print("Iteration")
+            if head.value == value:
+                return True
+            elif head.value > value:
+                return False
+            head = head.next_node
+        return False
 
     def fetch(self, value):
         pass
 
     def delete(self, value):
-        pass
+        if self.head is None:
+            return
+        elif self.head is not None and self.head.value == value:
+            self.head = self.head.next_node
+            return
+        else:
+            head = self.head
+            while head.next_node is not None:
+                print("Iteration")
+                if head.next_node.value == value:
+                    head.next_node = head.next_node.next_node
+                    return
+                elif head.value > value:
+                    return
+                head = head.next_node
+            return
 
     def print_list(self):
         head = self.head
@@ -125,14 +160,19 @@ if __name__ == '__main__':
     print("Started")
     print(10 < 10)
     list = LinkedList()
-    # list.insert(5)
-    # list.insert(10)
-    # list.insert(11)
-    # list.insert(8)
+    list.insert(5)
+    list.insert(10)
+    list.insert(11)
+    list.insert(8)
     list.insert(1)
     list.insert(2)
     list.insert(2)
-    # list.insert(11)
-    # list.insert(10)
+    list.insert(11)
+    list.insert(12)
+    print("################################")
+    list.print_list()
+    print("################################")
+    # print(list.search(0))
+    list.delete(3)
     print("################################")
     list.print_list()
