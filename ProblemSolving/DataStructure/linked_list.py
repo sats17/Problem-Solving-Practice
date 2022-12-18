@@ -156,7 +156,8 @@ class SortedLinkedList:
 if __name__ == '__main__':
     print("Started")
     print(10 < 10)
-    list = SortedLinkedList()
+    list = SortedLinkedList\
+        ()
     list.insert(5)
     list.insert(10)
     list.insert(11)
