@@ -3,7 +3,7 @@
   "nested_key1": {
     "key2": "{{ update_me_1 }}",
     "key3": [
-      "{{ update_me_2 }}",
+      "Hello there {{ update_me_2 }}",
       {"key4": "{{ update_me_2 }}"},
       [
         "{{ update_me_1 }}", "{{ update_me_2 }}"

@@ -68,7 +68,7 @@ class JsonTemplateResolver:
         if self.__var_regex.search(str(value)):
             for key in replace_dict.keys():
                 updated_key = "{{ " + key + " }}"
-                if re.search(str(value), updated_key):
+                if re.search(updated_key, str(value)):
                     value = re.sub(updated_key, replace_dict[key], value)
         if self.__arr_regex.search(str(value)):
             for key in replace_dict.keys():
