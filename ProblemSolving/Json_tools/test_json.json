@@ -10,5 +10,5 @@
       ]
     ]
   },
-  "array_key1": [ "{{ update_me_1 }}", "{{ update_me_2}}"]
+  "array_key1": [ "{% update_arr %}", "{{ update_me_2 }}"]
 }

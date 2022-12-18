@@ -2,8 +2,10 @@ import json
 import re
 import os
 import collections.abc
+
+
 class JsonTemplateResolver:
-    # -----------------------------------------------------------------------
+
     def __init__(self, path, values_dict):
         if not self.__is_dict(values_dict):
             raise ValueError("Provided Values are not Dict")
@@ -12,14 +14,17 @@ class JsonTemplateResolver:
         self.__var_regex = re.compile("\{\{\ [a-zA-Z0-9_]+\ \}\}")
         self.__arr_regex = re.compile("\{\%\ [a-zA-Z0-9_]+\ \%\}")
         self.__cln_regex = re.compile("[a-zA-Z0-9_]+")
+
     def __is_dict(self, obj):
         return isinstance(obj, collections.abc.Mapping)
+
     def __is_iterable(self, obj):
         try:
             iter(obj)
             return True
         except:
             return False
+
     def __load_template(self, file_path):
         if os.path.isfile(file_path) and file_path.lower().endswith("json"):
             try:
@@ -27,16 +32,18 @@ class JsonTemplateResolver:
                     self.__template = json.load(json_in)
             except Exception as ex:
                 print(ex)
-                raise ValueError("Unable to parse json! {}".format(ex))
+                raise ValueError("Unable to parse json! {}")
         else:
-            raise ValueError("{} is not JSON file".format(file_path))
+            raise ValueError(file_path+" is not JSON file")
+
     def generate(self):
         try:
             result = self.__scan_json_nodes(dict(self.__template), self.values_dict)
         except Exception as ex:
             print(ex)
-            raise ValueError("Error occurred while generating template")
+            raise ValueError("Error occurred while generating JSON from template")
         return result
+
     def __scan_json_nodes(self, nodes, replace_dict):
         if isinstance(nodes, dict):
             for key, value in nodes.items():
@@ -56,17 +63,25 @@ class JsonTemplateResolver:
                 else:
                     nodes[index] = self.__evaluate_value(value, replace_dict)
         return nodes
+
     def __evaluate_value(self, value, replace_dict):
         if self.__var_regex.search(str(value)):
             for key in replace_dict.keys():
                 updated_key = "{{ " + key + " }}"
-                value = re.sub(updated_key, replace_dict[key], value)
+                if re.search(str(value), updated_key):
+                    value = re.sub(updated_key, replace_dict[key], value)
+        if self.__arr_regex.search(str(value)):
+            for key in replace_dict.keys():
+                updated_key = "{% " + key + " %}"
+                if updated_key == value:
+                    value = replace_dict[key]
         return value
 
 
 if __name__ == "__main__":
     resolver = JsonTemplateResolver("test_json.json",
-                                    {"update_me_1": "resolved first", "update_me_2": "resolved second"})
+                                    {"update_me_1": "resolved first", "update_me_2": "resolved second",
+                                     "update_arr": ["123", "1234"]})
     result = resolver.generate()
     print(type(result))
     json_str = json.dumps(result, indent=4)
