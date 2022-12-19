@@ -2,14 +2,12 @@ import json
 import re
 import os
 import collections.abc
+import copy
 
 
 class JsonTemplateResolver:
 
-    def __init__(self, path, values_dict):
-        if not self.__is_dict(values_dict):
-            raise ValueError("Provided Values are not Dict")
-        self.values_dict = values_dict
+    def __init__(self, path):
         self.__load_template(path)
         self.__var_regex = re.compile("\{\{\ [a-zA-Z0-9_]+\ \}\}")
         self.__arr_regex = re.compile("\{\%\ [a-zA-Z0-9_]+\ \%\}")
@@ -36,9 +34,12 @@ class JsonTemplateResolver:
         else:
             raise ValueError(file_path+" is not JSON file")
 
-    def generate(self):
+    def generate(self, values_dict):
+        if not self.__is_dict(values_dict):
+            raise ValueError("Provided Values are not Dict")
         try:
-            result = self.__scan_json_nodes(dict(self.__template), self.values_dict)
+            template = copy.deepcopy(self.__template)
+            result = self.__scan_json_nodes(dict(template), values_dict)
         except Exception as ex:
             print(ex)
             raise ValueError("Error occurred while generating JSON from template")
@@ -79,10 +80,9 @@ class JsonTemplateResolver:
 
 
 if __name__ == "__main__":
-    resolver = JsonTemplateResolver("test_json.json",
-                                    {"update_me_1": "resolved first", "update_me_2": "resolved second",
+    resolver = JsonTemplateResolver("test_json.json")
+    result = resolver.generate({"update_me_1": "resolved first", "update_me_2": "resolved second",
                                      "update_arr": ["123", "1234"]})
-    result = resolver.generate()
     print(type(result))
     json_str = json.dumps(result, indent=4)
     print(type(json_str))
