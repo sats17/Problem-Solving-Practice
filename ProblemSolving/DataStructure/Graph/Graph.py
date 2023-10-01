@@ -4,8 +4,11 @@ class Node:
         self.id = node
         self.neighbour = {}
     
-    def set_neighbour(self, neighbour:Node):
+    def set_neighbour(self, neighbour:"Node"):
         self.neighbour[neighbour.get_node_id()] = neighbour
+
+    def is_neighbour(self, id):
+        return id in self.neighbour
 
     def __hash__(self):
         return hash(self.id)
@@ -31,11 +34,18 @@ class Graph:
         for key, value in self.node_dict.items():
             print(f'Node ID: {key}, Value: {value.__str__()}')
     
-    def set_neighbour(self, )
+    def set_edges(self, frm:Node, to:Node):
+        if not frm.is_neighbour(to.get_node_id()):
+            frm.set_neighbour(to)
+         
 
 if __name__ == '__main__':
     print("Hi there")
     graph = Graph()
     node1 = Node(1)
     graph.set_node(node1)
+    node2 = Node(2)
+    graph.set_node(node2)
+    graph.get_nodes()
+    graph.set_edges(node1, node2)
     graph.get_nodes()
