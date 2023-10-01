@@ -1,7 +1,8 @@
 # Ref https://www.bogotobogo.com/python/python_graph_data_structures.php#:~:text=A%20graph%20can%20be%20represented,tuple%20to%20represent%20a%20weight.
 class Node:
-    def __init__(self, node):
+    def __init__(self, node, name):
         self.id = node
+        self.name = name
         self.neighbour = {}
     
     def set_neighbour(self, neighbour:"Node"):
@@ -17,9 +18,9 @@ class Node:
         return self.id
     
     def __str__(self):
-        return f"Node instance with id={self.id} and neighbour={self.neighbour}"
+        return f"Node instance with id={self.id} and name={self.name} and neighbour={self.neighbour}"
 
-class Graph:
+class SocialNetwork:
     def __init__(self):
         self.node_dict = {}
         self.num_nodes = 0
@@ -37,15 +38,25 @@ class Graph:
     def set_edges(self, frm:Node, to:Node):
         if not frm.is_neighbour(to.get_node_id()):
             frm.set_neighbour(to)
+        if not to.is_neighbour(frm.get_node_id()):
+            to.set_neighbour(frm)
+    
+    def show_suggestions_friends(self, node:Node):
+        pass
          
 
 if __name__ == '__main__':
     print("Hi there")
-    graph = Graph()
-    node1 = Node(1)
-    graph.set_node(node1)
-    node2 = Node(2)
-    graph.set_node(node2)
-    graph.get_nodes()
-    graph.set_edges(node1, node2)
-    graph.get_nodes()
+    network = SocialNetwork()
+    alex = Node(1, "alex")
+    network.set_node(alex)
+    axel = Node(2, "axel")
+    network.set_node(axel)
+    bob = Node(3, "bob")
+    network.set_node(bob)
+    alias = Node(4, "alias")
+    network.set_node(alias)
+    network.get_nodes()
+    network.set_edges(alex, axel)
+    network.set_edges(bob, axel)
+    network.get_nodes()
