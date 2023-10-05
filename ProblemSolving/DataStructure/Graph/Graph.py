@@ -65,9 +65,9 @@ class SocialNetwork:
     def show_friends_suggestion_dfs(self, node:Node):
         for id, val in node.get_neighbour().items():
             print("Suggesting frnd's frnd from ID ", id)
-            self.travel_recursively(val, node.get_node_id())
+            self.travel_recursively(val, node.get_node_id(), node.get_neighbour())
     
-    def travel_recursively(self, node:Node, og_id, depth=1):
+    def travel_recursively(self, node:Node, og_id, og_frnds, depth=1):
         if depth == 3:
             print("ID, Recursive end", node.get_node_id())
             return
@@ -79,7 +79,9 @@ class SocialNetwork:
                     print("Skipping frnd Id, because it is original guy id ", id)
                     continue
                 print("Recursive frnd Id ", id)
-                self.travel_recursively(node, og_id, depth + 1)
+                if id not in og_frnds:
+                    print("This ID can be suggested ", id)
+                self.travel_recursively(node, og_id, og_frnds, depth + 1)
         
          
 
@@ -115,6 +117,7 @@ def generate_network():
     network.set_edges(tork, mia)
     network.set_edges(mark, molnar)
     network.set_edges(alex, axel)
+    network.set_edges(bob, mark)
 
     return network
 
