@@ -61,78 +61,60 @@ class SocialNetwork:
                 else:
                     suggestedFrnds.append(self.node_dict.get(s_key))
         return suggestedFrnds
+    
+    def show_friends_suggestion_dfs(self, node:Node):
+        for id, val in node.get_neighbour().items():
+            print("Suggesting frnd's frnd from ID ", id)
+            self.travel_recursively(val, node.get_node_id())
+    
+    def travel_recursively(self, node:Node, og_id, depth=1):
+        if depth == 3:
+            print("ID, Recursive end", node.get_node_id())
+            return
+        else:
+            print("ID", node.get_node_id())
+            for id, val in node.get_neighbour().items():
+                
+                if(id == og_id):
+                    print("Skipping frnd Id, because it is original guy id ", id)
+                    continue
+                print("Recursive frnd Id ", id)
+                self.travel_recursively(node, og_id, depth + 1)
         
          
 
 def generate_network():
 
     network = SocialNetwork()
-    alex = Node(1, "alex")
-    network.set_node(alex)
-    axel = Node(2, "axel")
-    network.set_node(axel)
-    bob = Node(3, "bob")
+    bob = Node(1, "bob")
     network.set_node(bob)
-    alias = Node(4, "alias")
+    alias = Node(2, "alias")
     network.set_node(alias)
-        # Adding more nodes
-    chris = Node(5, "chris")
-    network.set_node(chris)
+    axel = Node(3, "axel")
+    network.set_node(axel)
+    alex = Node(4, "alex")
+    network.set_node(alex)
+    mark = Node(5, "mark")
+    network.set_node(mark)
+    kia = Node(6, "kia")
+    network.set_node(kia)
+    mia = Node(7, "mia")
+    network.set_node(mia)
+    tork = Node(8, "tork")
+    network.set_node(tork)
+    molnar = Node(9, "molnar")
+    network.set_node(molnar)
 
-    dave = Node(6, "dave")
-    network.set_node(dave)
 
-    emily = Node(7, "emily")
-    network.set_node(emily)
-
-    frank = Node(8, "frank")
-    network.set_node(frank)
-
-    grace = Node(9, "grace")
-    network.set_node(grace)
-
-    hank = Node(10, "hank")
-    network.set_node(hank)
-
-    irene = Node(11, "irene")
-    network.set_node(irene)
-
-    jack = Node(12, "jack")
-    network.set_node(jack)
-
-    kate = Node(13, "kate")
-    network.set_node(kate)
-
-    lucas = Node(14, "lucas")
-    network.set_node(lucas)
-
-    megan = Node(15, "megan")
-    network.set_node(megan)
-
-    nathan = Node(16, "nathan")
-    network.set_node(nathan)
-
-    olivia = Node(17, "olivia")
-    network.set_node(olivia)
-
-    peter = Node(18, "peter")
-    network.set_node(peter)
-
-    quincy = Node(19, "quincy")
-    network.set_node(quincy)
-
-    roger = Node(20, "roger")
-    network.set_node(roger)
-
-    network.set_edges(alex, axel)
-    network.set_edges(axel, alias)
-    network.set_edges(axel, roger)
-    network.set_edges(quincy, axel)
-    network.set_edges(alex, quincy)
-    network.set_edges(bob, peter)
+    network.set_edges(bob, alias)
     network.set_edges(bob, alex)
-    network.set_edges(alex, megan)
-    network.set_edges(olivia, alex)
+    network.set_edges(alias, axel)
+    network.set_edges(alias, mark)
+    network.set_edges(axel, kia)
+    network.set_edges(kia, mia)
+    network.set_edges(tork, mia)
+    network.set_edges(mark, molnar)
+    network.set_edges(alex, axel)
 
     return network
 
@@ -141,6 +123,4 @@ if __name__ == '__main__':
 
     network = generate_network()
 
-    frnds = network.show_friends_suggestion(network.get_node_by_name("bob"))
-    for frnd in frnds:
-        print(frnd.get_name())
+    frnds = network.show_friends_suggestion_dfs(network.get_node_by_name("bob"))
