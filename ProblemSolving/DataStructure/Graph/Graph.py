@@ -63,41 +63,59 @@ class SocialNetwork:
         return suggestedFrnds
     
     def show_friends_suggestion_dfs(self, node:Node):
+        suggestedFrndsIds = []
+        visitedIds = []
         for id, val in node.get_neighbour().items():
-            print("Suggesting frnd's frnd from ID ", id)
-            self.travel_recursively(val, node.get_node_id(), node.get_neighbour(), node.get_node_id())
-    
-    def travel_recursively(self, node:Node, og_id, og_frnds, current_id, depth=1):
-        if depth == 3:
-            print("\n===============\nDepth limit reached, ID = ", node.get_node_id())
+            print("============\nSuggesting frnd's frnd from ID ", id)
+            print("\n============================\n")
+            self.travel_recursively(val, node.get_node_id(), node.get_neighbour(), node.get_node_id(), suggestedFrndsIds, visitedIds, 1)
+
+        print("Suggested frnds IDs are \n")
+        print(suggestedFrndsIds)
+
+    def travel_recursively(self, node:Node, og_id, og_frnds, current_id, suggestedFrndsIds, visitedIds, depth):
+        if depth == 2:
+            print("\n===============\nDepth limit reached with ID = ", node.get_node_id())
+            print("Validating what all frnds this Id have ",node.get_node_id())
             for id, val in node.get_neighbour().items():
                 print("Validation: Iterating frnd Id ", id)
                 if(id == og_id):
-                    print("Validation: Skipping frnd Id, because it is original guy id ", id)
+                    print("Validation: Skipping frnd Id, because it is original guy whom we are suggesting frnds ", id)
                     continue
                 # if(id == current_id):
                 #     print("Skipping current Id, because it is previously comes ", id)
                 #     continue
                 
                 if id not in og_frnds:
-                    print("This ID can be suggested, will move to next frnd ", id)
+                    print("Validation: This ID can be suggested, will move to next iteration ", id)
+                    if id not in suggestedFrndsIds:
+                        suggestedFrndsIds.append(id)
+            print("Returning to previous recursion")
             print("===============\n")
             return
         else:
-            print("ID in travel_recursively function", node.get_node_id())
+            print("We have reached to the ID = ", node.get_node_id(), ", We will search his frnds and depth to travel further")
+            if node.get_node_id() in visitedIds:
+                print("Skipping this id =", node.get_node_id()," as it is already visited")
+                return
             for id, val in node.get_neighbour().items():
-                print("Recursive frnd Id ", id)
+                print("Recursive frnd Id ", id, ", Which is frnd of ",node.get_node_id())
                 if(id == og_id):
-                    print("Skipping frnd Id, because it is original guy id ", id)
+                    print("Skipping frnd Id, because it is original guy id whom we are searching frnd", id)
                     continue
                 if(id == current_id):
-                    print("Skipping current Id, because it is previously comes ", id)
+                    print("Skipping this Id, because we travelled from this Id only ", id)
                     continue
                 
-                # if id not in og_frnds:
-                #     print("This ID can be suggested, will move to next depth ", id)
-                print("Moving to the next depth, depth = ",depth + 1)
-                self.travel_recursively(val, og_id, og_frnds, node.get_node_id(), depth + 1)
+                if id not in og_frnds:
+                    print("This ID can be suggested, will move to next depth ", id)
+                    if id not in suggestedFrndsIds:
+                        suggestedFrndsIds.append(id)
+                print("As no validation satiesfied, we will move to the next depth, depth number = ",depth + 1)
+                self.travel_recursively(val, og_id, og_frnds, node.get_node_id(), suggestedFrndsIds, visitedIds, depth + 1)
+            print("Done from recursive function")
+            visitedIds.append(node.get_node_id())
+
         
          
 
@@ -130,10 +148,10 @@ def generate_network():
     network.set_edges(alias, mark)
     network.set_edges(axel, kia)
     network.set_edges(kia, mia)
-    network.set_edges(tork, mia)
     network.set_edges(mark, molnar)
     network.set_edges(alex, axel)
     network.set_edges(bob, mark)
+    network.set_edges(mark, tork)
 
     return network
 
@@ -144,6 +162,8 @@ if __name__ == '__main__':
 
     frnds = network.show_friends_suggestion_dfs(network.get_node_by_name("bob"))
     # Problem, When depth moved forward. How to save from pervious node validation ?
+    # 3 [3, 7, 6, 8]
+    # 2 [6, 9, 8, 3, 7]
     """
     ===============
 Depth limit reached, ID =  6
