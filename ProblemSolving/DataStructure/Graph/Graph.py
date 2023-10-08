@@ -74,20 +74,20 @@ class SocialNetwork:
         print(suggestedFrndsIds)
 
     def travel_recursively(self, node:Node, og_id, og_frnds, current_id, suggestedFrndsIds, visitedIds, depth):
-        if depth == 2:
+        if depth == 3:
             print("\n===============\nDepth limit reached with ID = ", node.get_node_id())
             print("Validating what all frnds this Id have ",node.get_node_id())
             for id, val in node.get_neighbour().items():
                 print("Validation: Iterating frnd Id ", id)
                 if(id == og_id):
-                    print("Validation: Skipping frnd Id, because it is original guy whom we are suggesting frnds ", id)
+                    print("Validation: Skipping frnd Id",id," because it is original guy whom we are suggesting frnds ")
                     continue
                 # if(id == current_id):
                 #     print("Skipping current Id, because it is previously comes ", id)
                 #     continue
                 
                 if id not in og_frnds:
-                    print("Validation: This ID can be suggested, will move to next iteration ", id)
+                    print("Validation: This ID ",id," can be suggested, will move to next iteration ")
                     if id not in suggestedFrndsIds:
                         suggestedFrndsIds.append(id)
             print("Returning to previous recursion")
@@ -96,25 +96,28 @@ class SocialNetwork:
         else:
             print("We have reached to the ID = ", node.get_node_id(), ", We will search his frnds and depth to travel further")
             if node.get_node_id() in visitedIds:
-                print("Skipping this id =", node.get_node_id()," as it is already visited")
+                print("Not visiting this id =", node.get_node_id()," as it is already visited")
                 return
+            if node.get_node_id() not in og_frnds:
+                visitedIds.append(node.get_node_id())
             for id, val in node.get_neighbour().items():
                 print("Recursive frnd Id ", id, ", Which is frnd of ",node.get_node_id())
                 if(id == og_id):
-                    print("Skipping frnd Id, because it is original guy id whom we are searching frnd", id)
+                    print("Skipping frnd Id ",id," because it is original guy id whom we are searching frnd")
                     continue
                 if(id == current_id):
-                    print("Skipping this Id, because we travelled from this Id only ", id)
+                    print("Skipping this Id ",id, "because we travelled from this Id only")
                     continue
                 
+                # While travelling to the depth, we want to validate current nodes frnds.
                 if id not in og_frnds:
-                    print("This ID can be suggested, will move to next depth ", id)
+                    print("This ID ",id," can be suggested, will move to next depth ")
                     if id not in suggestedFrndsIds:
                         suggestedFrndsIds.append(id)
                 print("As no validation satiesfied, we will move to the next depth, depth number = ",depth + 1)
                 self.travel_recursively(val, og_id, og_frnds, node.get_node_id(), suggestedFrndsIds, visitedIds, depth + 1)
             print("Done from recursive function")
-            visitedIds.append(node.get_node_id())
+
 
         
          
@@ -140,6 +143,16 @@ def generate_network():
     network.set_node(tork)
     molnar = Node(9, "molnar")
     network.set_node(molnar)
+    david = Node(10, "david")
+    network.set_node(david)
+    smith = Node(11, "smith")
+    network.set_node(smith)
+    mau = Node(12, "mau")
+    network.set_node(mau)
+    ben = Node(13, "ben")
+    network.set_node(ben)
+    joe = Node(14, "joe")
+    network.set_node(joe)
 
 
     network.set_edges(bob, alias)
@@ -152,6 +165,14 @@ def generate_network():
     network.set_edges(alex, axel)
     network.set_edges(bob, mark)
     network.set_edges(mark, tork)
+    network.set_edges(molnar, david)
+    network.set_edges(david, smith)
+    #network.set_edges(axel, bob)
+    network.set_edges(axel, mau)
+    network.set_edges(mau, ben)
+    network.set_edges(ben, joe)
+    network.set_edges(alex, joe)
+    network.set_edges(alex, ben)
 
     return network
 
