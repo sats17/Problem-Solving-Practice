@@ -62,19 +62,22 @@ class SocialNetwork:
                     suggestedFrnds.append(self.node_dict.get(s_key))
         return suggestedFrnds
     
+    # Suggest frnd by iterating to all his friends, and those who are not already friends will get suggested. Depth is also matter
+    # here, if depth is sets as 3 then it will iterate to friends friend till depth limit reached.
     def show_friends_suggestion_dfs(self, node:Node):
         suggestedFrndsIds = []
         visitedIds = []
         for id, val in node.get_neighbour().items():
             print("============\nSuggesting frnd's frnd from ID ", id)
             print("\n============================\n")
-            self.travel_recursively(val, node.get_node_id(), node.get_neighbour(), node.get_node_id(), suggestedFrndsIds, visitedIds, 1)
+            self.__travel_recursively(val, node.get_node_id(), node.get_neighbour(), node.get_node_id(), suggestedFrndsIds, visitedIds, 1)
 
         print("Suggested frnds IDs are \n")
         print(suggestedFrndsIds)
 
-    def travel_recursively(self, node:Node, og_id, og_frnds, current_id, suggestedFrndsIds, visitedIds, depth):
-        if depth == 3:
+    def __travel_recursively(self, node:Node, og_id, og_frnds, current_id, suggestedFrndsIds, visitedIds, depth):
+        print("Depth is ", depth)
+        if depth >= 2:
             print("\n===============\nDepth limit reached with ID = ", node.get_node_id())
             print("Validating what all frnds this Id have ",node.get_node_id())
             for id, val in node.get_neighbour().items():
@@ -115,7 +118,7 @@ class SocialNetwork:
                     if id not in suggestedFrndsIds:
                         suggestedFrndsIds.append(id)
                 print("As no validation satiesfied, we will move to the next depth, depth number = ",depth + 1)
-                self.travel_recursively(val, og_id, og_frnds, node.get_node_id(), suggestedFrndsIds, visitedIds, depth + 1)
+                self.__travel_recursively(val, og_id, og_frnds, node.get_node_id(), suggestedFrndsIds, visitedIds, depth + 1)
             print("Done from recursive function")
 
 
@@ -173,6 +176,7 @@ def generate_network():
     network.set_edges(ben, joe)
     network.set_edges(alex, joe)
     network.set_edges(alex, ben)
+    network.set_edges(axel, mark)
 
     return network
 
@@ -181,16 +185,10 @@ if __name__ == '__main__':
 
     network = generate_network()
 
-    frnds = network.show_friends_suggestion_dfs(network.get_node_by_name("bob"))
+    frnds = network.show_friends_suggestion_dfs(network.get_node_by_name("kia"))
     # Problem, When depth moved forward. How to save from pervious node validation ?
     # 3 [3, 7, 6, 8]
     # 2 [6, 9, 8, 3, 7]
     """
-    ===============
-Depth limit reached, ID =  6
-Validation: Iterating frnd Id  3
-This ID can be suggested, will move to next depth  3
-Validation: Iterating frnd Id  7
-This ID can be suggested, will move to next depth  7
-===============
+    https://leetcode.com/discuss/interview-question/486188/facebook-phone-friend-suggestion to be solved
     """
