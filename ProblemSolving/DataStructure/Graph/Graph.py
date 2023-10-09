@@ -61,6 +61,49 @@ class SocialNetwork:
                 else:
                     suggestedFrnds.append(self.node_dict.get(s_key))
         return suggestedFrnds
+
+    def show_friends_suggestion_having_only_common_frnds(self, node:Node):
+        suggestedFrnds = []
+        for id, val in node.get_neighbour().items():
+            for c_id, c_val in val.get_neighbour().items():
+                # Pre validations that we should not suggest frnd to itself
+                if c_id == node.get_node_id():
+                    continue
+                # Pre validation that we should not suggest frnd that is already a frnd
+                if c_id in node.get_neighbour().keys():
+                    continue
+                canSuggest = True
+                for n_id in node.get_neighbour().keys():
+                    if n_id == c_id:
+                        continue
+                    if c_id not in self.node_dict[n_id].get_neighbour().keys():
+                        canSuggest = False
+                if canSuggest and c_id not in suggestedFrnds:
+                    suggestedFrnds.append(c_id)
+                
+        return suggestedFrnds
+
+    def show_friends_suggestion_having_only_common_frnds_improved(self, node:Node):
+        suggestedFrnds = []
+        filteredFrnds = {}
+        for id, val in node.get_neighbour().items():
+            for c_id, c_val in val.get_neighbour().items():
+                # Pre validations that we should not suggest frnd to itself
+                if c_id == node.get_node_id():
+                    continue
+                # Pre validation that we should not suggest frnd that is already a frnd
+                if c_id in node.get_neighbour().keys():
+                    continue
+                if filteredFrnds.get(c_id) is not None:
+                    filteredFrnds[c_id] = filteredFrnds.get(c_id) + 1
+                else:
+                    filteredFrnds[c_id] = 1
+        for id, rank in filteredFrnds.items():
+            if rank == len(node.get_neighbour()):
+                suggestedFrnds.append(id)
+                
+        return suggestedFrnds
+
     
     # Suggest frnd by iterating to all his friends, and those who are not already friends will get suggested. Depth is also matter
     # here, if depth is sets as 3 then it will iterate to friends friend till depth limit reached.
@@ -123,9 +166,35 @@ class SocialNetwork:
 
 
         
-         
-
 def generate_network():
+    network = SocialNetwork()
+    bob = Node(1, "bob")
+    network.set_node(bob)
+    alias = Node(2, "alias")
+    network.set_node(alias)
+    axel = Node(3, "axel")
+    network.set_node(axel)
+    alex = Node(4, "alex")
+    network.set_node(alex)
+    mark = Node(5, "mark")
+    network.set_node(mark)
+    kia = Node(6, "kia")
+    network.set_node(kia) 
+
+    network.set_edges(bob, alias)
+    network.set_edges(bob, axel)
+    network.set_edges(bob, alex)
+    network.set_edges(axel, alex)
+    network.set_edges(axel, kia)
+    network.set_edges(alias, kia)
+    network.set_edges(alex, kia)
+    network.set_edges(axel, mark)
+    network.set_edges(alias, mark)
+    network.set_edges(alex, mark)
+
+    return network
+
+def generate_network_for_dfs():
 
     network = SocialNetwork()
     bob = Node(1, "bob")
@@ -185,7 +254,8 @@ if __name__ == '__main__':
 
     network = generate_network()
 
-    frnds = network.show_friends_suggestion_dfs(network.get_node_by_name("kia"))
+    frnds = network.show_friends_suggestion_having_only_common_frnds_improved(network.get_node_by_name("bob"))
+    print(frnds)
     # Problem, When depth moved forward. How to save from pervious node validation ?
     # 3 [3, 7, 6, 8]
     # 2 [6, 9, 8, 3, 7]
