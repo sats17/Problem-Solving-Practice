@@ -7,25 +7,21 @@
 # While converting to tiny-url, take last remainder as first value
 
 
-import hashlib
+class TinyUrl:
+    storage = {}
+    def generate_unique_id(self):
+        if len(self.storage) != 0:
+            return list(self.storage)[-1] + 1
+        else:
+            return 0
+    
+    def store_url_in_storage(self, id, tinyUrlId, fullUrl):
+        data = {tinyUrlId: fullUrl}
+        self.storage[id] = data
 
-def hash_string(input_string):
-    # Encode the string to bytes (UTF-8 encoding is commonly used)
-    encoded_string = input_string.encode('utf-8')
-    
-    # Create a SHA-256 hash object
-    sha256_hash = hashlib.sha256()
-    
-    # Update the hash object with the encoded bytes
-    sha256_hash.update(encoded_string)
-    
-    # Get the hexadecimal representation of the hash
-    hashed_string = sha256_hash.hexdigest()
-    
-    return hashed_string
-
-# Example usage
-input_string = "Hello, World!"
-hashed_string = hash_string(input_string)
-
-print(f"The hash of '{input_string}' is: {hashed_string}")
+print("Started")
+tinyUrl = TinyUrl()
+id = tinyUrl.generate_unique_id()
+print(id)
+tinyUrl.store_url_in_storage(id, "ABAW", "https://www.github.com/sats17")
+print(tinyUrl.generate_unique_id())
