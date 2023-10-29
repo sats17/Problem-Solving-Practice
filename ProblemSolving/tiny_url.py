@@ -1,4 +1,4 @@
-# Convert URL to hash using any hashing algorithm
+# Convert URL to hash using any hashing algorithm, also not to make hash collision use unique id generator on top of this.
 # Convert hashed value to base10
 # Convert base10 values to base62\
 # To convert base10 to base62, divide base10 by 62 and collect the remainders until the quotient becomes zero.
