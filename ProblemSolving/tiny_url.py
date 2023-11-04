@@ -8,7 +8,10 @@
 # While converting to tiny-url, take last remainder as first value
 
 
-class TinyUrl:
+"""
+We are not using hash values in this TinyUrl program
+"""
+class TinyUrlWithBase62:
     storage = {}
     def generate_unique_id(self):
         if len(self.storage) != 0:
