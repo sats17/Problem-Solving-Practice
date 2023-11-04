@@ -1,5 +1,5 @@
 # Convert URL to hash using any hashing algorithm, also not to make hash collision use unique id generator on top of this.
-# Convert hashed value to base10
+# Convert hashed value to base10. Since we used hashing algorithms, hashing algorithm can have alphabets hence we are converting to base10.
 # Convert base10 values to base62\
 # To convert base10 to base62, divide base10 by 62 and collect the remainders until the quotient becomes zero.
 # Convert remainders to base62 equivalent value example Z = 61, 1 = 1, 0 = 0. Base 62 starts index from 0 to 61 with mapping
